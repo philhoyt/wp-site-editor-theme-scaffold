@@ -1,0 +1,1 @@
+# wp-site-editor-theme-scaffold
