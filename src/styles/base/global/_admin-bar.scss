@@ -1,0 +1,8 @@
+//
+// Global: admin-bar.
+//
+
+:root {
+	// When admin bar is not shown, default to 0px.
+	--global--admin-bar--height: var(--wp-admin--admin-bar--height, 0px);
+}

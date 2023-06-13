@@ -1,0 +1,16 @@
+{
+  "name": "wp-sets",
+  "description": "A scaffold for creating theme with the site editor in mind.",
+  "version": "0.0.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/philhoyt/wp-site-editor-theme-scaffold.git"
+  },
+	"scripts": {
+		"start": "gulp-wp",
+		"build": "gulp-wp build"
+	},
+  "devDependencies": {
+    "gulp-wp": "^0.6.6"
+  }
+}
