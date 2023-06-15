@@ -48,6 +48,8 @@ function wpsets_styles() {
 	$asset = require get_template_directory() . '/dist/css/style.asset.php';
 
 	wp_enqueue_style( 'wpsets-style', get_template_directory_uri() . '/dist/css/style.css', array(), $asset['version'] );
+
+	wp_enqueue_script( 'wpsets-script', get_template_directory_uri() . '/dist/js/theme.js', $asset['dependencies'], $asset['version'], true );
 }
 add_action( 'wp_enqueue_scripts', __NAMESPACE__ . '\\wpsets_styles' );
 
