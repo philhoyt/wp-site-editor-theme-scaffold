@@ -1,0 +1,25 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 2,
+	"name": "themescaffold/example",
+	"version": "1.0.0",
+	"title": "Example",
+	"description": "WP Theme Scaffold example block.",
+	"category": "theme",
+	"icon": "info",
+	"keywords": [ "example" ],
+	"textdomain": "themescaffold",
+	"attributes": {
+		"text": {
+			"type": "string",
+			"default": "Hello World"
+		}
+	},
+	"supports": {
+		"align": true
+	},
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./editor.css",
+	"style": "file:./style.css",
+	"viewScript": "file:./view.js"
+}

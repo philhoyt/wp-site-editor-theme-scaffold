@@ -57,6 +57,13 @@
 				"medium": "1.8",
 				"small": "1.5",
 				"x-large": "2.6"
+			},
+			"themeColors": {
+				"primary": "#000",
+				"secondary": "#000",
+				"tertiary": "#000",
+				"background": "#000",
+				"foreground": "#000"
 			}
 		},
 		"layout": {

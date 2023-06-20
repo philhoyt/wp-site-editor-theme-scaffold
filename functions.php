@@ -11,3 +11,8 @@
  * Theme setup.
  */
 require get_template_directory() . '/inc/setup.php';
+
+/**
+ * Custom blocks and styles.
+ */
+require get_template_directory() . '/inc/blocks.php';
