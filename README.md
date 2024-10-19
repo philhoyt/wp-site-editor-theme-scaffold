@@ -29,7 +29,7 @@ Theme name: `WP-SETS`
 Replace this with your desired theme name (e.g., "My Theme")
 
 Slug: `wpsets`
-Replace this with your theme's slug. Use lowercase letters and hyphens (e.g., "my-theme")
+Replace this with your theme's slug. Use lowercase letters and hyphens (e.g., "mytheme")
 
 Namespace: `WPSETS`
 Replace this with your theme's namespace. Use uppercase letters (e.g., "MYTHEME")
