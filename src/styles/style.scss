@@ -2,6 +2,6 @@
 // Front-end stylesheet.
 //
 
-@import 'base/global/*';
+@use 'base/global/*';
 
-@import 'modules/*';
+@use 'modules/*';

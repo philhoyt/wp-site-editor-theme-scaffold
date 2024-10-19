@@ -6,11 +6,11 @@
     "type": "git",
     "url": "git+https://github.com/philhoyt/wp-site-editor-theme-scaffold.git"
   },
-	"scripts": {
-		"start": "gulp-wp",
-		"build": "gulp-wp build"
-	},
+  "scripts": {
+    "start": "gulp-wp",
+    "build": "gulp-wp build"
+  },
   "devDependencies": {
-    "gulp-wp": "^0.6.6"
+    "gulp-wp": "^0.6.10"
   }
 }

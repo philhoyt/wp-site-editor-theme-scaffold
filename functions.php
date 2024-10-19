@@ -7,6 +7,10 @@
  * @package wpsets
  */
 
+if ( ! defined( 'ABSPATH' ) ) {
+    exit; // Exit if accessed directly
+}
+
 /**
  * Theme setup.
  */
