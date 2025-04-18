@@ -45,20 +45,39 @@ add_action( 'after_setup_theme', __NAMESPACE__ . '\\setup' );
  * Enqueue scripts and styles.
  */
 function wpsets_enqueue_scripts_and_styles() {
-	$asset = require get_template_directory() . '/dist/css/style.asset.php';
+	// Get style asset info.
+	$style_asset = require get_template_directory() . '/dist/css/style.asset.php';
 
-	wp_enqueue_style( 'wpsets-style', get_template_directory_uri() . '/dist/css/style.css', array(), $asset['version'] );
+	// Enqueue main stylesheet.
+	wp_enqueue_style(
+		'wpsets-style',
+		get_template_directory_uri() . '/dist/css/style.css',
+		array(),
+		$style_asset['version']
+	);
 
-	wp_enqueue_script( 'wpsets-script', get_template_directory_uri() . '/dist/js/theme.js', $asset['dependencies'], $asset['version'], true );
+	// Get script asset info.
+	$script_asset = require get_template_directory() . '/dist/js/theme.asset.php';
+
+	// Enqueue theme script.
+	wp_enqueue_script(
+		'wpsets-script',
+		get_template_directory_uri() . '/dist/js/theme.js',
+		$script_asset['dependencies'],
+		$script_asset['version'],
+		true
+	);
 }
-add_action( 'wp_enqueue_scripts', __NAMESPACE__ . '\\wpsets_enqueue_scripts_and_styles' );
+add_action( 'wp_enqueue_scripts', __NAMESPACE__ . '\wpsets_enqueue_scripts_and_styles' );
 
 /**
  * Add Editor Styles.
  */
 function wpsets_add_editor_styles() {
-
+	// Add theme support for editor styles.
 	add_theme_support( 'editor-styles' );
+
+	// Enqueue editor styles.
 	add_editor_style( get_template_directory_uri() . '/dist/css/editor.css' );
 }
 add_action( 'after_setup_theme', __NAMESPACE__ . '\\wpsets_add_editor_styles' );

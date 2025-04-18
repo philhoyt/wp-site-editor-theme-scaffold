@@ -7,9 +7,11 @@
 	$context: editor,
 );
 
-@import 'base/global/*';
+// Import base styles
+@use 'base/global/admin-bar';
 
-@import 'modules/*';
+// Import modules
+@use 'modules/site';
 
 .acf-block-preview {
 	a {

@@ -2,6 +2,8 @@
 // Front-end stylesheet.
 //
 
-@use 'base/global/*';
+// Import base styles
+@use "base/global/admin-bar";
 
-@use 'modules/*';
+// Import modules
+@use "modules/site";
