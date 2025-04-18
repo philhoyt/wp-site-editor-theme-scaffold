@@ -1,5 +1,5 @@
 {
-	"$schema": "https://schemas.wp.org/wp/6.2/theme.json",
+	"$schema": "https://schemas.wp.org/wp/6.8/theme.json",
 	"settings": {
 		"appearanceTools": true,
 		"color": {
@@ -60,41 +60,57 @@
 			}
 		},
 		"layout": {
-			"contentSize": "40rem",
-			"wideSize": "64rem"
+			"contentSize": "960px",
+			"wideSize": "1440px"
 		},
 		"spacing": {
+			"defaultSpacingSizes": false,
 			"customSpacingSize": true,
 			"spacingSizes": [
 				{
-					"name": "Tiny",
-					"size": ".5rem",
-					"slug": "tiny"
+					"name": "3X-Small",
+					"size": "0.25rem",
+					"slug": "10"
+				},
+				{
+					"name": "2X-Small",
+					"size": "0.5rem",
+					"slug": "20"
+				},
+				{
+					"name": "X-Small",
+					"size": "0.75rem",
+					"slug": "30"
 				},
 				{
 					"name": "Small",
 					"size": "1rem",
-					"slug": "small"
+					"slug": "40"
 				},
 				{
 					"name": "Medium",
-					"size": "min(2rem, 6vw)",
-					"slug": "medium"
+					"size": "1.5rem",
+					"slug": "50"
 				},
 				{
 					"name": "Large",
-					"size": "min(4rem,8vw)",
-					"slug": "large"
+					"size": "clamp(1.75rem, 4vw, 2.5rem)",
+					"slug": "60"
 				},
 				{
-					"name": "Huge",
-					"size": "min(6.75rem,10vw)",
-					"slug": "huge"
+					"name": "X-Large",
+					"size": "clamp(2.5rem, 5vw, 3rem)",
+					"slug": "70"
 				},
 				{
-					"name": "Gigantic",
-					"size": "min(10rem,12vw)",
-					"slug": "gigantic"
+					"name": "2X-Large",
+					"size": "clamp(3rem, 6vw, 4rem)",
+					"slug": "80"
+				},
+				{
+					"name": "3X-large",
+					"size": "clamp(4rem, 8vw, 6rem)",
+					"slug": "90"
 				}
 			],
 			"units": [
@@ -109,6 +125,7 @@
 		"typography": {
 			"fluid": true,
 			"customFontSize": true,
+			"defaultFontSizes": false,
 			"dropCap": true,
 			"fontFamilies": [
 				{
@@ -119,41 +136,65 @@
 			],
 			"fontSizes": [
 				{
-					"fluid": {
-						"max": "1rem",
-						"min": "0.875rem"
-					},
-					"size": "1rem",
-					"slug": "small"
+					"name": "3X-Small",
+					"slug": "xxxs",
+					"size": "0.625rem"
 				},
 				{
-					"fluid": {
-						"max": "1.125rem",
-						"min": "1rem"
-					},
-					"size": "1.125rem",
-					"slug": "medium"
+					"name": "2X-Small",
+					"slug": "xxs",
+					"size": "0.75rem"
 				},
 				{
-					"fluid": {
-						"max": "1.875rem",
-						"min": "1.75rem"
-					},
-					"size": "1.75rem",
-					"slug": "large"
+					"name": "X-Small",
+					"slug": "xs",
+					"size": "0.875rem"
 				},
 				{
-					"fluid": false,
+					"name": "Small",
+					"slug": "s",
+					"size": "1rem"
+				},
+				{
+					"name": "Medium",
+					"slug": "m",
+					"size": "1.125rem"
+				},
+				{
+					"name": "Large",
+					"slug": "l",
+					"size": "1.5rem",
+					"fluid": {
+						"max": "1.5rem",
+						"min": "1.25rem"
+					}
+				},
+				{
+					"name": "X-Large",
+					"slug": "xl",
+					"size": "2rem",
+					"fluid": {
+						"max": "2rem",
+						"min": "1.5rem"
+					}
+				},
+				{
+					"name": "2X-Large",
+					"slug": "xxl",
 					"size": "2.25rem",
-					"slug": "x-large"
+					"fluid": {
+						"max": "2.25rem",
+						"min": "1.75rem"
+					}
 				},
 				{
+					"name": "3X-Large",
+					"slug": "xxxl",
+					"size": "3.75rem",
 					"fluid": {
-						"max": "10rem",
-						"min": "4rem"
-					},
-					"size": "10rem",
-					"slug": "xx-large"
+						"max": "3.75rem",
+						"min": "2rem"
+					}
 				}
 			],
 			"fontStyle": true,
@@ -218,5 +259,5 @@
 			"title": "Footer"
 		}
 	],
-	"version": 2
+	"version": 3
 }
