@@ -35,6 +35,7 @@ Namespace: `WPSETS`
 Replace this with your theme's namespace. Use uppercase letters (e.g., "MYTHEME")
 
 Important files to check:
+
 - `style.css`: Update theme information
 - `package.json`: Update name and description
 - `composer.json`: Update name if necessary
@@ -43,11 +44,13 @@ Important files to check:
 - `languages/wpsets.pot`: Rename this file and update its contents
 
 2. Navigate to the theme directory:
+
    ```
    cd your-theme-name
    ```
 
 3. Install PHP dependencies:
+
    ```
    composer install
    ```
