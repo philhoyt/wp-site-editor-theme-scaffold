@@ -13,6 +13,9 @@ namespace WPSETS\Setup;
  * Note that this function is hooked into the after_setup_theme hook, which
  * runs before the init hook. The init hook is too late for some features, such
  * as indicating support for post thumbnails.
+ *
+ * @since 0.0.0
+ * @return void
  */
 function setup() {
 	/**
@@ -42,7 +45,13 @@ add_action( 'after_setup_theme', __NAMESPACE__ . '\\setup' );
 
 
 /**
- * Enqueue scripts and styles.
+ * Enqueue scripts and styles for the front-end.
+ *
+ * Loads the main stylesheet and theme JavaScript file with proper versioning
+ * from the build process. Falls back to default version if asset files don't exist.
+ *
+ * @since 0.0.0
+ * @return void
  */
 function enqueue_scripts_and_styles() {
 	// Get style asset info.
@@ -86,7 +95,13 @@ function enqueue_scripts_and_styles() {
 add_action( 'wp_enqueue_scripts', __NAMESPACE__ . '\\enqueue_scripts_and_styles' );
 
 /**
- * Add Editor Styles.
+ * Add editor styles support and enqueue editor stylesheet.
+ *
+ * Enables theme support for editor styles and loads the editor-specific
+ * stylesheet for the block editor.
+ *
+ * @since 0.0.0
+ * @return void
  */
 function add_editor_styles() {
 	// Add theme support for editor styles.
