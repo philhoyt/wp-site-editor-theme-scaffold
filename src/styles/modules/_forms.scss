@@ -1,0 +1,26 @@
+//
+// Form element styles.
+//
+// Note: WordPress 6.9 supports textInput and select styling via theme.json,
+// but focus states must be added via CSS as they're not yet supported in theme.json.
+//
+
+// Target text inputs and textareas (same as WordPress 6.9 textInput element).
+a,
+button,
+textarea,
+select,
+input:where([type="email"], [type="number"], [type="password"], [type="search"], [type="text"], [type="tel"], [type="url"]) {
+	// Custom caret color for text inputs.
+	caret-color: var(--wp--preset--color--tertiary);
+
+	// Focus state: show outline with primary color and no radius.
+	&:focus {
+		outline: 1px solid var(--wp--preset--color--tertiary);
+		outline-offset: 2px;
+	}
+
+	&:focus:not(:focus-visible) {
+		outline: none !important;
+	}
+}
