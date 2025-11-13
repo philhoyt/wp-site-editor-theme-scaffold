@@ -1,21 +1,58 @@
 //
 // Form element styles.
 //
-// Note: WordPress 6.9 supports textInput and select styling via theme.json,
-// but focus states must be added via CSS as they're not yet supported in theme.json.
-//
 
-// Target text inputs and textareas (same as WordPress 6.9 textInput element).
-a,
-button,
+// Text inputs and textareas (WordPress 6.9 textInput element).
+// Excludes button types which use button element styles.
 textarea,
 select,
 input:where([type="email"], [type="number"], [type="password"], [type="search"], [type="text"], [type="tel"], [type="url"]) {
-	// Custom caret color for text inputs.
 	caret-color: var(--wp--preset--color--tertiary);
 
-	// Focus state: show outline with primary color and no radius.
 	&:focus {
+		outline: 1px solid var(--wp--preset--color--tertiary);
+		outline-offset: 2px;
+	}
+
+	&:focus:not(:focus-visible) {
+		outline: none !important;
+	}
+}
+
+// Links focus styles.
+a {
+	&:focus {
+		outline: 1px solid var(--wp--preset--color--tertiary);
+		outline-offset: 2px;
+	}
+
+	&:focus:not(:focus-visible) {
+		outline: none !important;
+	}
+}
+
+// Map button element styles from theme.json to button and input button types.
+button,
+input[type="button"],
+input[type="submit"],
+input[type="reset"] {
+	color: var(--wp--preset--color--base);
+	background-color: var(--wp--preset--color--contrast);
+	padding-top: var(--wp--preset--spacing--30);
+	padding-right: var(--wp--preset--spacing--50);
+	padding-bottom: var(--wp--preset--spacing--30);
+	padding-left: var(--wp--preset--spacing--50);
+	font-size: var(--wp--preset--font-size--medium);
+	font-weight: 600;
+
+	&:hover {
+		background-color: var(--wp--preset--color--contrast-dark);
+		color: var(--wp--preset--color--base);
+	}
+
+	&:focus {
+		background-color: var(--wp--preset--color--contrast-dark);
+		color: var(--wp--preset--color--base);
 		outline: 1px solid var(--wp--preset--color--tertiary);
 		outline-offset: 2px;
 	}

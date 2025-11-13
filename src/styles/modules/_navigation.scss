@@ -1,0 +1,16 @@
+//
+// Navigation block styles.
+//
+
+// Ensure navigation overlay respects root padding.
+// The overlay container is rendered outside the normal flow,
+// so it needs explicit padding to match root spacing.
+/* stylelint-disable-next-line selector-class-pattern */
+.wp-block-navigation__responsive-container {
+	// Apply root padding to overlay menu.
+	&.is-menu-open {
+		padding-left: var(--wp--style--root--padding-left, var(--wp--preset--spacing--50));
+		padding-right: var(--wp--style--root--padding-right, var(--wp--preset--spacing--50));
+	}
+}
+
