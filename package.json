@@ -12,13 +12,19 @@
     "format": "wp-scripts format",
     "lint:js": "wp-scripts lint-js",
     "lint:css": "wp-scripts lint-style",
+    "lint:scss": "stylelint 'src/**/*.scss' --formatter verbose",
+    "lint:scss:fix": "stylelint 'src/**/*.scss' --fix",
     "lint:php": "composer run-script lint",
     "lint:php:fix": "composer run-script lint-fix",
     "packages-update": "wp-scripts packages-update"
   },
   "devDependencies": {
+    "@stylistic/stylelint-plugin": "^3.0.0",
     "@wordpress/scripts": "^26.19.0",
+    "editorconfig": "^3.0.1",
     "sanitize.css": "^13.0.0",
-    "sass": "^1.86.3"
+    "sass": "^1.86.3",
+    "stylelint": "^16.0.0",
+    "stylelint-config-standard-scss": "^13.0.0"
   }
 }
