@@ -16,21 +16,22 @@
 			"header"
 			"main"
 			"footer";
-			body.admin-bar & {
-				min-height: calc(100vh - var(--global--admin-bar--height)); /* Fallback */
-				min-height: calc(100dvh - var(--global--admin-bar--height)); /* Dynamic viewport height for mobile */
-			}
-	
-			> header {
-				grid-area: header;
-			}
 
-			> main {
-				grid-area: main;
-			}
-			
-			> footer {
-				grid-area: footer;
-			}
+		body.admin-bar & {
+			min-height: calc(100vh - var(--global--admin-bar--height)); /* Fallback */
+			min-height: calc(100dvh - var(--global--admin-bar--height)); /* Dynamic viewport height for mobile */
+		}
+
+		> header {
+			grid-area: header;
+		}
+
+		> main {
+			grid-area: main;
+		}
+
+		> footer {
+			grid-area: footer;
+		}
 	}
 }

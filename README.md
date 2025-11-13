@@ -7,7 +7,7 @@ WP-SETS is a modern WordPress theme scaffold designed with the Site Editor in mi
 - Full Site Editing (FSE) support
 - PHP_CodeSniffer integration with WordPress Coding Standards
 - Sass compilation for styles
-- Utilizes gulp-wp for efficient WordPress theme development
+- Modern build tooling with @wordpress/scripts
 
 ## Requirements
 
@@ -66,7 +66,7 @@ To start development:
    npm run start
    ```
 
-Note: This project uses gulp-wp, a Gulp-based build tool specifically designed for WordPress theme development. It handles tasks such as Sass compilation, JavaScript bundling, and more.
+This will start the development server with hot module replacement, automatically compiling your SCSS and JavaScript files as you make changes.
 
 ## Building for Production
 
