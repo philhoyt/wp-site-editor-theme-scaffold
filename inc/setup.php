@@ -46,7 +46,14 @@ add_action( 'after_setup_theme', __NAMESPACE__ . '\\setup' );
  */
 function enqueue_scripts_and_styles() {
 	// Get style asset info.
-	$style_asset = require get_template_directory() . '/dist/css/style.asset.php';
+	$style_asset_path = get_template_directory() . '/dist/css/style.asset.php';
+	$style_asset      = array(
+		'version' => '1.0.0',
+	);
+
+	if ( file_exists( $style_asset_path ) ) {
+		$style_asset = require $style_asset_path;
+	}
 
 	// Enqueue main stylesheet.
 	wp_enqueue_style(
@@ -57,7 +64,15 @@ function enqueue_scripts_and_styles() {
 	);
 
 	// Get script asset info.
-	$script_asset = require get_template_directory() . '/dist/js/theme.asset.php';
+	$script_asset_path = get_template_directory() . '/dist/js/theme.asset.php';
+	$script_asset      = array(
+		'dependencies' => array(),
+		'version'      => '1.0.0',
+	);
+
+	if ( file_exists( $script_asset_path ) ) {
+		$script_asset = require $script_asset_path;
+	}
 
 	// Enqueue theme script.
 	wp_enqueue_script(
