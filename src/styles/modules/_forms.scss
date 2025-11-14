@@ -2,28 +2,16 @@
 // Form element styles.
 //
 
-// Text inputs and textareas (WordPress 6.9 textInput element).
-// Excludes button types which use button element styles.
+// Text inputs and textareas
 textarea,
 select,
 input:where([type="email"], [type="number"], [type="password"], [type="search"], [type="text"], [type="tel"], [type="url"]) {
+	line-height: normal;
 	caret-color: var(--wp--preset--color--tertiary);
 
 	&:focus {
-		outline: 1px solid var(--wp--preset--color--tertiary);
-		outline-offset: 2px;
-	}
-
-	&:focus:not(:focus-visible) {
-		outline: none !important;
-	}
-}
-
-// Links focus styles.
-a {
-	&:focus {
-		outline: 1px solid var(--wp--preset--color--tertiary);
-		outline-offset: 2px;
+		outline: var(--wp--custom--outline--width) var(--wp--custom--outline--style) var(--wp--preset--color--tertiary);
+		outline-offset: var(--wp--custom--outline--offset);
 	}
 
 	&:focus:not(:focus-visible) {
@@ -53,8 +41,8 @@ input[type="reset"] {
 	&:focus {
 		background-color: var(--wp--preset--color--contrast-dark);
 		color: var(--wp--preset--color--base);
-		outline: 1px solid var(--wp--preset--color--tertiary);
-		outline-offset: 2px;
+		outline: var(--wp--custom--outline--width) var(--wp--custom--outline--style) var(--wp--preset--color--tertiary);
+		outline-offset: var(--wp--custom--outline--offset);
 	}
 
 	&:focus:not(:focus-visible) {

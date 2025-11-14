@@ -57,6 +57,11 @@
         "medium": "1.8",
         "small": "1.5",
         "x-large": "2.6"
+      },
+      "outline": {
+        "width": "2px",
+        "offset": "2px",
+        "style": "solid"
       }
     },
     "layout": {
@@ -337,7 +342,7 @@
           },
           "outline": {
             "color": "var(--wp--preset--color--tertiary)",
-            "offset": "2px"
+            "offset": "var(--wp--custom--outline--offset)"
           }
         }
       },
@@ -400,9 +405,9 @@
         },
         "outline": {
           "color": "transparent",
-          "offset": "2px",
-          "style": "solid",
-          "width": "2px"
+          "offset": "var(--wp--custom--outline--offset)",
+          "style": "var(--wp--custom--outline--style)",
+          "width": "var(--wp--custom--outline--width)"
         },
         "spacing": {
           "padding": {
@@ -415,6 +420,12 @@
         "typography": {
           "fontSize": "var(--wp--preset--font-size--medium)",
           "fontFamily": "var(--wp--preset--font-family--primary)"
+        },
+        ":focus": {
+          "outline": {
+            "color": "var(--wp--preset--color--tertiary)",
+            "offset": "var(--wp--custom--outline--offset)"
+          }
         }
       },
       "select": {
@@ -430,9 +441,9 @@
         },
         "outline": {
           "color": "transparent",
-          "offset": "2px",
-          "style": "solid",
-          "width": "2px"
+          "offset": "var(--wp--custom--outline--offset)",
+          "style": "var(--wp--custom--outline--style)",
+          "width": "var(--wp--custom--outline--width)"
         },
         "spacing": {
           "padding": {
@@ -445,6 +456,12 @@
         "typography": {
           "fontSize": "var(--wp--preset--font-size--medium)",
           "fontFamily": "var(--wp--preset--font-family--primary)"
+        },
+        ":focus": {
+          "outline": {
+            "color": "var(--wp--preset--color--tertiary)",
+            "offset": "var(--wp--custom--outline--offset)"
+          }
         }
       },
       "link": {

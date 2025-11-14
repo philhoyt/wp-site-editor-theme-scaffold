@@ -17,6 +17,15 @@
 a {
    text-decoration-thickness: 1px !important;
    text-underline-offset: .1em;
+
+	&:focus {
+		outline: var(--wp--custom--outline--width) var(--wp--custom--outline--style) var(--wp--preset--color--tertiary);
+		outline-offset: var(--wp--custom--outline--offset);
+	}
+
+	&:focus:not(:focus-visible) {
+		outline: none !important;
+	}
 }
 
 /* Focus styles */
