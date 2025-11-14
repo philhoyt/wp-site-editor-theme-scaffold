@@ -20,7 +20,8 @@ input:where([type="email"], [type="number"], [type="password"], [type="search"],
 }
 
 // Map button element styles from theme.json to button and input button types.
-button,
+// Exclude buttons within the navigation block as they have their own styles.
+button:not(.wp-block-navigation__responsive-container-open):not(.wp-block-navigation__responsive-container-close),
 input[type="button"],
 input[type="submit"],
 input[type="reset"] {
