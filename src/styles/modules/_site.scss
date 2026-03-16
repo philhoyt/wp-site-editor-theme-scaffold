@@ -24,6 +24,8 @@
 
 		> header {
 			grid-area: header;
+			position: relative;
+			z-index: 2;
 		}
 
 		> main {

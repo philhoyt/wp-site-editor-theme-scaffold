@@ -21,17 +21,17 @@ input:where([type="email"], [type="number"], [type="password"], [type="search"],
 
 // Map button element styles from theme.json to button and input button types.
 // Exclude buttons within the navigation block as they have their own styles.
-button:not(.wp-block-navigation__responsive-container-open):not(.wp-block-navigation__responsive-container-close),
+button:not(.wp-block-navigation__responsive-container-open, .wp-block-navigation__responsive-container-close),
 input[type="button"],
 input[type="submit"],
 input[type="reset"] {
 	color: var(--wp--preset--color--base);
 	background-color: var(--wp--preset--color--contrast);
-	padding-top: var(--wp--preset--spacing--30);
-	padding-right: var(--wp--preset--spacing--50);
-	padding-bottom: var(--wp--preset--spacing--30);
-	padding-left: var(--wp--preset--spacing--50);
-	font-size: var(--wp--preset--font-size--medium);
+	padding-top: var(--wp--preset--spacing--xs);
+	padding-right: var(--wp--preset--spacing--m);
+	padding-bottom: var(--wp--preset--spacing--xs);
+	padding-left: var(--wp--preset--spacing--m);
+	font-size: var(--wp--preset--font-size--m);
 	font-weight: 600;
 
 	&:hover {

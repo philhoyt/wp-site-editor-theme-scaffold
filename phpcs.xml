@@ -22,14 +22,12 @@
     <rule ref="PHPCompatibilityWP"/>
 
     <!-- Rules: WordPress Coding Standards -->
-    <config name="minimum_supported_wp_version" value="5.6"/>
+    <config name="minimum_supported_wp_version" value="6.0"/>
     <rule ref="WordPress">
         <exclude name="WordPress.PHP.YodaConditions.NotYoda" />
         <exclude name="Universal.Arrays.DisallowShortArraySyntax" />
+        <exclude name="Squiz.Commenting.VariableComment" />
     </rule>
-    <rule ref="WordPress-Core"/>
-    <rule ref="WordPress-Docs"/>
-    <rule ref="WordPress-Extra"/>
 
     <!-- Allow theme-specific exceptions -->
     <rule ref="WordPress.Files.FileName">
@@ -71,5 +69,4 @@
         </properties>
     </rule>
 
-    <exclude name="Squiz.Commenting.VariableComment" />
 </ruleset>

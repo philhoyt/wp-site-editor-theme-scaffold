@@ -44,3 +44,8 @@ indent_size = 1
 indent_style = tab
 indent_size = 1
 
+# XML files
+[*.xml]
+indent_style = space
+indent_size = 4
+

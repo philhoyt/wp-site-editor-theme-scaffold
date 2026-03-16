@@ -15,8 +15,8 @@
 * https://github.com/WordPress/gutenberg/issues/42319
 */
 a {
-   text-decoration-thickness: 1px !important;
-   text-underline-offset: .1em;
+	text-decoration-thickness: 1px !important;
+	text-underline-offset: .1em;
 
 	&:focus {
 		outline: var(--wp--custom--outline--width) var(--wp--custom--outline--style) var(--wp--preset--color--tertiary);
@@ -30,23 +30,24 @@ a {
 
 /* Focus styles */
 :where(.wp-site-blocks *:focus) {
-   outline-width: 2px;
-   outline-style: solid;
+	outline-width: 2px;
+	outline-style: solid;
+	outline-color: var(--wp--preset--color--tertiary);
 }
 
 /* Increase the bottom margin on submenus, so that the outline is visible. */
 .wp-block-navigation .wp-block-navigation-submenu .wp-block-navigation-item:not(:last-child) {
-   margin-bottom: 3px;
+	margin-bottom: 3px;
 }
 
 /* Increase the outline offset on the parent menu items, so that the outline does not touch the text. */
 .wp-block-navigation .wp-block-navigation-item .wp-block-navigation-item__content {
-   outline-offset: 4px;
+	outline-offset: 4px;
 }
 
 /* Remove outline offset from the submenus, otherwise the outline is visible outside the submenu container. */
 .wp-block-navigation .wp-block-navigation-item ul.wp-block-navigation__submenu-container .wp-block-navigation-item__content {
-   outline-offset: 0;
+	outline-offset: 0;
 }
 
 /*
@@ -54,7 +55,7 @@ a {
 * https://github.com/WordPress/gutenberg/issues/55190
 */
 h1, h2, h3, h4, h5, h6, blockquote, caption, figcaption, p {
-   text-wrap: pretty;
+	text-wrap: pretty;
 }
 
 /*
@@ -62,7 +63,7 @@ h1, h2, h3, h4, h5, h6, blockquote, caption, figcaption, p {
 * https://github.com/WordPress/gutenberg/issues/65934
 */
 .more-link {
-   display: block;
+	display: block;
 }
 
 /*
@@ -70,5 +71,10 @@ h1, h2, h3, h4, h5, h6, blockquote, caption, figcaption, p {
 * https://core.trac.wordpress.org/ticket/63875
 */
 :where(pre) {
-   overflow-x: auto;
+	overflow-x: auto;
+}
+
+/* Add spacing between list items. */
+.wp-block-list li {
+	margin-top: 0.5rem;
 }
