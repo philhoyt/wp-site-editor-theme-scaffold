@@ -35,6 +35,14 @@ function setup() {
 	 */
 	add_theme_support( 'title-tag' );
 
+	// Add support for post thumbnails.
+	add_theme_support( 'post-thumbnails' );
+
+	// Register custom image sizes.
+	add_image_size( 'wpsets-featured', 720, 480, true );        // 3:2 at content width.
+	add_image_size( 'wpsets-featured-wide', 1440, 960, true );  // 3:2 at wide width.
+	add_image_size( 'wpsets-square', 600, 600, true );          // Square crop.
+
 	// Remove core block patterns if you're providing your own in the patterns directory.
 	remove_theme_support( 'core-block-patterns' );
 }

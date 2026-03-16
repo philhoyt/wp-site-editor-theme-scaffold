@@ -16,10 +16,12 @@
     "lint:scss:fix": "stylelint 'src/**/*.scss' --fix",
     "lint:php": "composer run-script lint",
     "lint:php:fix": "composer run-script lint-fix",
-    "packages-update": "wp-scripts packages-update"
+    "packages-update": "wp-scripts packages-update",
+    "screenshot": "node bin/screenshot.js"
   },
   "devDependencies": {
     "@stylistic/stylelint-plugin": "^3.0.0",
+    "puppeteer": "^24.0.0",
     "mini-css-extract-plugin": "^2.9.4",
     "@wordpress/scripts": "^31.0.0",
     "editorconfig": "^3.0.1",
