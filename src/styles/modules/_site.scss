@@ -7,8 +7,7 @@
 @include context.is(front) {
 	.wp-site-blocks {
 		width: 100%;
-		min-height: 100vh; /* Fallback */
-		min-height: 100dvh; /* Dynamic viewport height for mobile */
+		min-block-size: 100svh;
 		display: grid;
 		grid-template-columns: 1fr;
 		grid-template-rows: auto 1fr auto;
@@ -18,8 +17,7 @@
 			"footer";
 
 		body.admin-bar & {
-			min-height: calc(100vh - var(--global--admin-bar--height)); /* Fallback */
-			min-height: calc(100dvh - var(--global--admin-bar--height)); /* Dynamic viewport height for mobile */
+			min-block-size: calc(100svh - var(--global--admin-bar--height));
 		}
 
 		> header {

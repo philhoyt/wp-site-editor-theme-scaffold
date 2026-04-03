@@ -10,6 +10,10 @@
 @use "modules/forms";
 @use "modules/navigation";
 
+html {
+	scrollbar-gutter: stable;
+}
+
 /*
 * Link styles
 * https://github.com/WordPress/gutenberg/issues/42319

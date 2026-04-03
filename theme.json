@@ -52,6 +52,11 @@
       ]
     },
     "custom": {
+      "button": {
+        "outline": {
+          "borderWidth": "2px"
+        }
+      },
       "lineHeight": {
         "large": "2.2",
         "medium": "1.8",
@@ -243,6 +248,18 @@
           "blockGap": "var:preset|spacing|m"
         }
       },
+      "core/button": {
+        "variations": {
+          "outline": {
+            "spacing": {
+              "padding": {
+                "top": "calc(var(--wp--preset--spacing--xs) - var(--wp--custom--button--outline--border-width))",
+                "bottom": "calc(var(--wp--preset--spacing--xs) - var(--wp--custom--button--outline--border-width))"
+              }
+            }
+          }
+        }
+      },
       "core/buttons": {
         "spacing": {
           "blockGap": "var:preset|spacing|s"
@@ -264,6 +281,9 @@
             }
           }
         }
+      },
+      "core/navigation-link": {
+        "css": ".current-menu-item > a, .current-page-ancestor > a { text-decoration: underline; }"
       },
       "core/site-title": {
         "typography": {
