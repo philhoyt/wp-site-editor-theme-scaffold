@@ -47,9 +47,13 @@ src/styles/
 The `_context.scss` mixin controls whether styles apply on the front-end or in the editor:
 
 ```scss
-@use '../tools/context';
-@include context.is(front) { /* front-end only */ }
-@include context.is(editor) { /* editor only */ }
+@use "../tools/context";
+@include context.is(front) {
+	/* front-end only */
+}
+@include context.is(editor) {
+	/* editor only */
+}
 ```
 
 ### Theme Identity
@@ -61,12 +65,12 @@ The `_context.scss` mixin controls whether styles apply on the front-end or in t
 
 ### Key Files
 
-| File | Purpose |
-|------|---------|
-| `theme.json` | All theme settings: color palette, typography, layout widths, spacing, border radii |
-| `inc/setup.php` | Theme setup hooks, asset enqueueing using `*.asset.php` manifests |
-| `functions.php` | Minimal entry point — includes `inc/setup.php` |
-| `webpack.config.js` | Build config extending `@wordpress/scripts` defaults |
+| File                | Purpose                                                                             |
+| ------------------- | ----------------------------------------------------------------------------------- |
+| `theme.json`        | All theme settings: color palette, typography, layout widths, spacing, border radii |
+| `inc/setup.php`     | Theme setup hooks, asset enqueueing using `*.asset.php` manifests                   |
+| `functions.php`     | Minimal entry point — includes `inc/setup.php`                                      |
+| `webpack.config.js` | Build config extending `@wordpress/scripts` defaults                                |
 
 ### Conventions
 
