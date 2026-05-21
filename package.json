@@ -37,7 +37,7 @@
     "puppeteer": "^24.0.0",
     "mini-css-extract-plugin": "^2.9.4",
     "@wordpress/dependency-extraction-webpack-plugin": "^6.43.0",
-    "@wordpress/scripts": "^31.0.0",
+    "@wordpress/scripts": "^32.2.0",
     "editorconfig": "^3.0.1",
     "prettier": "^3.0.0",
     "sass": "^1.86.3",
