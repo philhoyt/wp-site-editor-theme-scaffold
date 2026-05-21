@@ -31,9 +31,8 @@ This is a **WordPress Full Site Editing (FSE) block theme** scaffold. There are 
 
 - `src/styles/style.scss` → `dist/css/style.css` (front-end)
 - `src/styles/editor.scss` → `dist/css/editor.css` (editor-only)
-- `src/scripts/theme.js` → `dist/js/theme.js`
 
-Webpack (`webpack.config.js`) extends the default `@wordpress/scripts` config, separating JS and CSS into subdirectories and generating `*.asset.php` manifest files used by `inc/setup.php` for versioned asset enqueueing.
+Webpack (`webpack.config.js`) extends the default `@wordpress/scripts` config, separating CSS into a `css/` subdirectory and generating `*.asset.php` manifest files used by `inc/setup.php` for versioned asset enqueueing. `src/scripts/` is reserved as the entry point for theme JS — add an entry to `webpack.config.js` when the first script lands.
 
 ### SCSS Structure
 
@@ -78,3 +77,13 @@ The `_context.scss` mixin controls whether styles apply on the front-end or in t
 - Theme layout uses CSS Grid on `.wp-site-blocks` (header/main/footer)
 - Core block patterns are disabled; custom patterns go in `patterns/`
 - Admin bar height is exposed as a CSS custom property for layout offset calculations
+
+### Translations
+
+Block-template strings (in `templates/*.html` and `parts/*.html`) are **not** picked up by the default `wp i18n make-pot` run. To extract them into `languages/wpsets.pot`, include the template directories explicitly:
+
+```bash
+wp i18n make-pot . languages/wpsets.pot --include="templates,parts,patterns,inc"
+```
+
+Translatable user-facing copy is best authored inside block patterns (`patterns/*.php`) where it can be wrapped in `esc_html__( '…', 'wpsets' )` and extracted with the standard tooling.
