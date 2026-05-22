@@ -1,0 +1,29 @@
+<?php
+/**
+ * Title: Footer
+ * Slug: wpsets/footer
+ * Categories: footer
+ * Block Types: core/template-part/footer
+ * Description: Site footer with logo, copyright, site title, and navigation.
+ *
+ * @package wpsets
+ */
+
+?>
+<!-- wp:group {"backgroundColor":"contrast-light","layout":{"type":"constrained"}} -->
+<div class="wp-block-group has-contrast-light-background-color has-background"><!-- wp:group {"align":"wide","style":{"spacing":{"padding":{"top":"var:preset|spacing|m","bottom":"var:preset|spacing|m"}}},"layout":{"type":"flex","flexWrap":"nowrap","justifyContent":"space-between"}} -->
+<div class="wp-block-group alignwide" style="padding-top:var(--wp--preset--spacing--m);padding-bottom:var(--wp--preset--spacing--m)"><!-- wp:group {"style":{"spacing":{"blockGap":"var:preset|spacing|xs"}},"layout":{"type":"flex","orientation":"vertical"}} -->
+<div class="wp-block-group"><!-- wp:site-logo /-->
+
+<!-- wp:group {"style":{"spacing":{"blockGap":"var:preset|spacing|xs"}},"layout":{"type":"flex","flexWrap":"nowrap"}} -->
+<div class="wp-block-group"><!-- wp:paragraph -->
+<p>©</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:site-title {"level":0,"isLink":false} /--></div>
+<!-- /wp:group --></div>
+<!-- /wp:group -->
+
+<!-- wp:navigation /--></div>
+<!-- /wp:group --></div>
+<!-- /wp:group -->
