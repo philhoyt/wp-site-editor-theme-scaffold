@@ -45,3 +45,6 @@ Thumbs.db
 # Compiled Files
 /dist
 .windsurfrules
+
+# Local audit/scope plans (not for commit)
+/plans

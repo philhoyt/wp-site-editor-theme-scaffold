@@ -7,6 +7,10 @@
 
 namespace WPSETS\Setup;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 /**
  * Sets up theme defaults and registers support for various WordPress features.
  *
