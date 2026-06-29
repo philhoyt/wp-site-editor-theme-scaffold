@@ -48,3 +48,6 @@ Thumbs.db
 
 # Local audit/scope plans (not for commit)
 /plans
+
+# Claude Code — machine-specific session permissions, not shared
+.claude/settings.local.json
