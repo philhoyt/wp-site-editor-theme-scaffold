@@ -11,19 +11,24 @@ npm run build          # Production build
 
 # Linting
 npm run lint:js        # ESLint
-npm run lint:css       # Stylelint (CSS)
 npm run lint:scss      # Stylelint (SCSS)
 npm run lint:scss:fix  # Auto-fix SCSS lint issues
-npm run lint:php       # PHP CodeSniffer
-npm run lint:php:fix   # Auto-fix PHP lint issues
+npm run lint:php       # PHP CodeSniffer (composer lint)
+npm run lint:php:fix   # Auto-fix PHP lint issues (composer lint-fix)
+composer analyse       # PHPStan static analysis (level 5, WordPress stubs)
 
 # Formatting
 npm run format         # Format JS/JSON/MD via wp-scripts
+npm run format:check   # Check formatting without writing
+
+# Utilities
+npm run screenshot     # Capture screenshot.png of the local site (Puppeteer)
+npm run packages-update # Update @wordpress/* packages
 ```
 
 ## Architecture
 
-This is a **WordPress Full Site Editing (FSE) block theme** scaffold. There are no PHP templates — layout is defined via block-based `.html` files in `templates/` and `parts/`.
+This is a **WordPress Full Site Editing (FSE) block theme** scaffold. There are no PHP page templates — `templates/` and `parts/` hold thin block-based `.html` shells, while the meaningful block markup lives in PHP patterns under `patterns/` (see [Patterns](#patterns)).
 
 ### Build Pipeline
 
@@ -66,10 +71,14 @@ The `_context.scss` mixin controls whether styles apply on the front-end or in t
 
 | File                | Purpose                                                                             |
 | ------------------- | ----------------------------------------------------------------------------------- |
+| `style.css`         | Theme header — name, version, text domain, `Requires`/`Tested up to` metadata        |
 | `theme.json`        | All theme settings: color palette, typography, layout widths, spacing, border radii |
 | `inc/setup.php`     | Theme setup hooks, asset enqueueing using `*.asset.php` manifests                   |
 | `functions.php`     | Minimal entry point — includes `inc/setup.php`                                      |
+| `patterns/`         | PHP patterns holding the theme's block markup (the pattern paradigm)                 |
 | `webpack.config.js` | Build config extending `@wordpress/scripts` defaults                                |
+| `phpcs.xml`         | PHP CodeSniffer ruleset (WordPress standard + PHPCompatibilityWP)                    |
+| `phpstan.neon`      | PHPStan config (level 5, WordPress stubs)                                            |
 
 ### Conventions
 
