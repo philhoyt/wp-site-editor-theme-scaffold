@@ -7,8 +7,8 @@
     "url": "git+https://github.com/philhoyt/wp-site-editor-theme-scaffold.git"
   },
   "scripts": {
-    "start": "wp-scripts start",
-    "build": "wp-scripts build",
+    "start": "wp-scripts start --experimental-modules",
+    "build": "wp-scripts build --experimental-modules",
     "format": "wp-scripts format",
     "format:check": "prettier --check \"**/*.{js,json,md}\"",
     "lint:js": "wp-scripts lint-js",
