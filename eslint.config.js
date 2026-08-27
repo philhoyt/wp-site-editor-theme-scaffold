@@ -12,4 +12,13 @@ module.exports = [
 		ignores: ["**/dist/**"],
 	},
 	...wpScriptsConfig,
+	{
+		settings: {
+			// Script modules provided by WordPress core at runtime. They are
+			// externalised by DependencyExtractionWebpackPlugin, so they are never
+			// resolvable on disk and import/no-unresolved would flag every
+			// Interactivity API block.
+			"import/core-modules": ["@wordpress/interactivity", "@wordpress/interactivity-router"],
+		},
+	},
 ];
