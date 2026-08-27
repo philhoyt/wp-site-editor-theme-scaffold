@@ -49,10 +49,22 @@
         </properties>
     </rule>
 
-    <!-- Enforce tabs for indentation -->
+    <!--
+        Enforce tabs for indentation.
+
+        `indent` is a SPACE count, not a nesting-level count; `tabIndent` only
+        controls whether the sniff emits tabs when reporting and fixing. Setting
+        indent="1" therefore declares "one indent level is one space", which makes
+        the exact check on scope openers and closers demand 1 space where a tab
+        (4 spaces) sits, reported as "expected 0 tabs, found 1" — and phpcbf
+        "fixes" it by stripping the indentation entirely.
+
+        WordPress-Core already sets indent="4" tabIndent="true" exact="false", so
+        this only restates it. Leave the value at 4.
+    -->
     <rule ref="Generic.WhiteSpace.ScopeIndent">
         <properties>
-            <property name="indent" value="1"/>
+            <property name="indent" value="4"/>
             <property name="tabIndent" value="true"/>
         </properties>
     </rule>
