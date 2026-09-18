@@ -2,7 +2,7 @@
 /**
  * Title: Posts list
  * Slug: wpsets/template-query-loop
- * Categories: query
+ * Categories: query, posts
  * Block Types: core/query
  * Description: Default post list with featured image, title, content, meta, and pagination.
  *
@@ -43,5 +43,11 @@
 
 <!-- wp:query-pagination-next /-->
 <!-- /wp:query-pagination --></div>
-<!-- /wp:group --></div>
+<!-- /wp:group -->
+
+<!-- wp:query-no-results -->
+<!-- wp:paragraph -->
+<p><?php echo esc_html_x( 'No posts were found.', 'Message shown when a query returns nothing.', 'wpsets' ); ?></p>
+<!-- /wp:paragraph -->
+<!-- /wp:query-no-results --></div>
 <!-- /wp:query -->
