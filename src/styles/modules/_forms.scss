@@ -19,12 +19,12 @@ input:where([type="email"], [type="number"], [type="password"], [type="search"],
 	}
 }
 
-// Map button element styles from theme.json to button and input button types.
-// Exclude buttons within the navigation block as they have their own styles.
-button:not(.wp-block-navigation__responsive-container-open, .wp-block-navigation__responsive-container-close),
-input[type="button"],
-input[type="submit"],
-input[type="reset"] {
+// Give bare button elements the same look as theme.json's `elements.button`
+// (which only reaches `.wp-element-button`). `:where()` keeps the whole rule at
+// zero specificity so any plugin that styles its own button with a class,
+// such as WooCommerce's mini-cart toggle, wins over this fallback. The nav
+// block's toggles are excluded because they are icon buttons.
+:where(button:not(.wp-block-navigation__responsive-container-open, .wp-block-navigation__responsive-container-close), input[type="button"], input[type="submit"], input[type="reset"]) {
 	color: var(--wp--preset--color--base);
 	background-color: var(--wp--preset--color--contrast);
 	padding-top: var(--wp--preset--spacing--xs);
@@ -34,19 +34,17 @@ input[type="reset"] {
 	font-size: var(--wp--preset--font-size--m);
 	font-weight: 600;
 
-	&:hover {
+	&:where(:hover, :focus) {
 		background-color: var(--wp--preset--color--contrast-dark);
 		color: var(--wp--preset--color--base);
 	}
 
-	&:focus {
-		background-color: var(--wp--preset--color--contrast-dark);
-		color: var(--wp--preset--color--base);
+	&:where(:focus) {
 		outline: var(--wp--custom--outline--width) var(--wp--custom--outline--style) var(--wp--preset--color--tertiary);
 		outline-offset: var(--wp--custom--outline--offset);
 	}
 
-	&:focus:not(:focus-visible) {
+	&:where(:focus:not(:focus-visible)) {
 		outline: none !important;
 	}
 }
