@@ -23,6 +23,7 @@ npm run format:check   # Check formatting without writing
 
 # Utilities
 npm run screenshot     # Capture screenshot.png of the local site (Puppeteer)
+npm run validate:blocks # Parse patterns/templates/parts with the core block registry; fails on any block that would enter recovery mode
 npm run packages-update # Update @wordpress/* packages
 ```
 
@@ -78,20 +79,53 @@ The `_context.scss` mixin controls whether styles apply on the front-end or in t
 | File                | Purpose                                                                             |
 | ------------------- | ----------------------------------------------------------------------------------- |
 | `style.css`         | Theme header — name, version, text domain, `Requires`/`Tested up to` metadata        |
-| `theme.json`        | All theme settings: color palette, typography, layout widths, spacing, border radii |
+| `theme.json`        | All theme settings: color palette, typography, layout widths, spacing, border radii. Its `$schema` is pinned to a released version (`wp/7.1`) and moves together with `Tested up to` in `style.css`, so the editor and validators only offer settings the theme claims to support |
 | `inc/setup.php`     | Theme setup hooks, asset enqueueing using `*.asset.php` manifests                   |
 | `functions.php`     | Minimal entry point — includes `inc/setup.php`                                      |
 | `patterns/`         | PHP patterns holding the theme's block markup (the pattern paradigm)                 |
 | `webpack.config.js` | Build config extending `@wordpress/scripts` defaults                                |
 | `phpcs.xml`         | PHP CodeSniffer ruleset (WordPress standard + PHPCompatibilityWP)                    |
 | `phpstan.neon`      | PHPStan config (level 5, WordPress stubs)                                            |
+| `bin/wp.sh`         | WP-CLI wrapper for the Local site. `SITE` at the top is the folder name under `~/Local Sites` (`wp-sets` for the scaffold's own dev site; change it in a derived theme) and needs a one-time socket symlink, described in the script |
+| `.distignore`       | Paths excluded from the theme zip (source, tooling, dotfiles, docs, lockfiles)       |
+| `.github/workflows/release.yml` | On a `v*` tag: builds, checks the tag against `style.css` `Version` and `package.json` (and `readme.txt` `Stable tag` once one exists), stages through `.distignore`, zips with a single `<slug>/` root, and publishes a GitHub release with the fixed asset name `<slug>.zip`. Set `SLUG` in its `env:` block. The scaffold itself never tags a release; the workflow activates in a derived theme |
+
+### Navigation
+
+`src/styles/modules/_navigation.scss` replaces core's dropdown (a 200px white box with a
+hard border and no shadow) with a content-sized surface, and fixes the mobile overlay.
+All values come from `settings.custom.navigation` in `theme.json`
+(`--wp--custom--navigation--submenu--*`); it draws no indicator and sets no hover
+colours, so a derived theme layers its look on top rather than undoing anything.
+
+Three core-markup traps, documented at the top of the module: `__container` is not a
+direct child of `.wp-block-navigation`; the open overlay inherits the bar's
+`items-justified-*` alignment and needs the three `--navigation-layout-*` custom
+properties reset; core marks the open overlay's background and padding `!important`.
+
+### Claude Code hooks
+
+`.claude/settings.json` runs five `PostToolUse` hooks after every Edit/Write, from
+`.claude/scripts/hooks/`: phpcs (using the project `phpcs.xml`), ESLint, Stylelint, a
+security-pattern warning for PHP, and a readme-prose warning (a no-op until a
+`readme.txt` exists). Each hook only acts on the file type it covers and feeds its
+findings back as additional context; none of them block the edit. The hook scripts are
+excluded from phpcs (`phpcs.xml`), ESLint (`eslint.config.js`) and Prettier
+(`.prettierignore`) so they do not show up as lint targets themselves.
 
 ### Conventions
 
 - Tabs for indentation (PHP, JS, SCSS, HTML); spaces for JSON/YAML
 - Theme layout uses CSS Grid on `.wp-site-blocks` (header/main/footer)
 - Core block patterns are disabled; custom patterns go in `patterns/`
+- No custom image sizes are registered. Add `add_image_size()` in the derived theme only once a pattern or template consumes the size — unused sizes bloat every upload and get flagged in a directory review
+- `dist/css/style-rtl.css` is served automatically via `wp_style_add_data( …, 'rtl', 'replace' )`; nothing extra is needed for RTL locales
 - Admin bar height is exposed as a CSS custom property for layout offset calculations
+- Spacing preset slugs must not contain digits. WordPress kebab-cases slugs when it emits
+  custom properties, so a `2xl` slug becomes `--wp--preset--spacing--2-xl` and any
+  `var(--wp--preset--spacing--2xl)` written in a pattern or SCSS resolves to nothing,
+  silently. The scale is `xs s m l xl xxl xxxl`. (The border-radius slugs are already
+  written as `2-xl` / `3-xl`, which matches what WordPress emits.)
 
 ### Patterns
 
@@ -120,6 +154,29 @@ This scaffold follows the **pattern-paradigm** used by Twenty Twenty-Five: templ
 - `hidden-*.php` — internal building blocks referenced only from templates or other patterns; not shown in the inserter
 - Other names (`comments.php`, `post-navigation.php`) — reusable building blocks that may also surface in the inserter
 
+### Block markup must validate
+
+Patterns, templates and parts are hand-written serialised block HTML. If the HTML does
+not match what the block's `save()` would produce, the editor drops the block into
+recovery mode, and repairing it from the Site Editor inlines the pattern markup and
+breaks i18n. **Run `npm run validate:blocks` after touching any of them** — it boots the
+core block registry under jsdom, renders the patterns through WP-CLI (`bin/wp.sh`) so
+the PHP runs, reads templates and parts from disk, and parses everything with
+`@wordpress/blocks`; a block that would enter recovery mode fails the run with the
+expected/found markup. `--from=<json>` validates an arbitrary `{"name": "markup"}` map
+instead.
+
+When `bin/wp.sh` cannot reach a site (no socket symlink, Local not running) the patterns
+are skipped with a warning and only templates and parts are checked. Point `SITE` in
+`bin/wp.sh` at the theme's Local site to cover patterns too.
+
+Mismatches found so far, all class-list slips: `has-background-dim-55` (core rounds
+`dimRatio` to the nearest 10, so 55 → `-60`); a separator without
+`has-alpha-channel-opacity` (present whenever no opacity is set); the cover's `<img>`
+must come before the overlay `<span>` in the current save format (span-first only
+matches a deprecation and gets silently rewritten). Class order and inline-style order
+do not matter — the validator compares them as sets — but missing or extra classes do.
+
 ### Translations
 
 User-facing strings live in `patterns/*.php` wrapped in `esc_html__()`, `esc_html_e()`, `esc_html_x()`, or `esc_attr_x()` with the `wpsets` text domain. To regenerate `languages/wpsets.pot`:
@@ -129,3 +186,21 @@ wp i18n make-pot . languages/wpsets.pot --include="templates,parts,patterns,inc"
 ```
 
 The `--include` paths cover both PHP source and any patterns/templates that might pick up additional strings as the theme grows.
+
+## Gotchas
+
+Things that are not derivable from the code:
+
+- **Theme patterns are cached against the theme version.** A new file in `patterns/`
+  does not register until `Version:` in `style.css` changes, or you run
+  `bin/wp.sh cache flush` and delete the `wp_theme_files_patterns*` options
+  (`bin/wp.sh option list --search='wp_theme_files_patterns*' --field=option_name | xargs -n1 bin/wp.sh option delete`).
+- **Site Editor customisations override theme files.** If the dev site does not match
+  `templates/` or `parts/`, check
+  `bin/wp.sh post list --post_type=wp_template,wp_template_part`. `wp_template` posts
+  cannot be trashed — export a backup, then `bin/wp.sh post delete <id> --force`.
+- **`context.is()` takes one argument.** Styles that apply to both the front-end and
+  the editor go outside the mixin entirely.
+- **Spacing slugs must not contain digits.** See [Conventions](#conventions).
+- **Block markup must match `save()` output.** See
+  [Block markup must validate](#block-markup-must-validate); run `npm run validate:blocks`.

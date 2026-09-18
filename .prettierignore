@@ -26,3 +26,6 @@ Thumbs.db
 package-lock.json
 composer.lock
 
+
+# Claude Code hook scripts (single-quoted, kept in step with the wordpress plugin)
+.claude/scripts/

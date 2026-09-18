@@ -17,7 +17,8 @@
     "lint:php": "composer run-script lint",
     "lint:php:fix": "composer run-script lint-fix",
     "packages-update": "wp-scripts packages-update",
-    "screenshot": "node bin/screenshot.js"
+    "screenshot": "node bin/screenshot.js",
+    "validate:blocks": "node bin/validate-blocks.js"
   },
   "overrides": {
     "@sentry/node": {
@@ -42,6 +43,9 @@
     "prettier": "^3.0.0",
     "sass": "^1.86.3",
     "stylelint": "^16.0.0",
-    "stylelint-config-standard-scss": "^13.0.0"
+    "stylelint-config-standard-scss": "^13.0.0",
+    "jsdom": "^29.1.1",
+    "@wordpress/blocks": "^16.0.0",
+    "@wordpress/block-library": "^11.0.0"
   }
 }

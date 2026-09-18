@@ -1,0 +1,97 @@
+# Builds and publishes a theme zip when a `v*` tag is pushed. The scaffold
+# itself never tags a release (its Version stays 0.0.0); this workflow is a
+# template that activates in a derived theme. Set SLUG once, below.
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+env:
+  SLUG: wpsets
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Set up Node
+        uses: actions/setup-node@v5
+        with:
+          node-version: "22"
+          cache: "npm"
+
+      - name: Install JS dependencies
+        run: npm ci
+
+      - name: Build assets
+        run: npm run build
+
+      # readme.txt only exists once the theme is prepared for the directory;
+      # its Stable tag is checked when it is there.
+      - name: Check version strings match the tag
+        run: |
+          TAG="${GITHUB_REF_NAME#v}"
+          STYLE=$(sed -n 's/^Version: *//p' style.css | tr -d '\r')
+          PKG=$(node -p "require('./package.json').version")
+          echo "tag=$TAG style.css=$STYLE package.json=$PKG"
+          if [ "$TAG" != "$STYLE" ] || [ "$TAG" != "$PKG" ]; then
+            echo "::error::Version strings do not match the tag"; exit 1
+          fi
+          if [ -f readme.txt ]; then
+            STABLE=$(sed -n 's/^Stable tag: *//p' readme.txt | tr -d '\r')
+            echo "readme=$STABLE"
+            if [ "$TAG" != "$STABLE" ]; then
+              echo "::error::readme.txt Stable tag does not match the tag"; exit 1
+            fi
+          fi
+
+      # Stage a clean copy honouring .distignore and zip the folder (never its
+      # contents) so the archive has a single <slug>/ root. A fixed asset name
+      # keeps releases/latest/download/<slug>.zip stable for a Playground
+      # blueprint.
+      - name: Build theme zip
+        run: |
+          rm -rf build && mkdir -p "build/$SLUG"
+          rsync -a --exclude-from=.distignore --exclude=build ./ "build/$SLUG/"
+          (cd build && zip -qr "../$SLUG.zip" "$SLUG")
+
+      - name: Verify zip
+        run: |
+          unzip -l "$SLUG.zip"
+          for f in style.css theme.json templates/index.html dist/css/style.css; do
+            unzip -l "$SLUG.zip" | awk '{print $4}' | grep -qx "$SLUG/$f" || { echo "::error::$f missing from zip"; exit 1; }
+          done
+          if [ -f readme.txt ]; then
+            unzip -l "$SLUG.zip" | awk '{print $4}' | grep -qx "$SLUG/readme.txt" || { echo "::error::readme.txt missing from zip"; exit 1; }
+          fi
+          ! unzip -l "$SLUG.zip" | grep -E "node_modules|/src/|/tests/|\.claude|/bin/"
+
+      # The changelog body comes from readme.txt when there is one; otherwise
+      # GitHub generates release notes from the commits since the last tag.
+      - name: Extract changelog
+        id: changelog
+        run: |
+          VERSION="${GITHUB_REF_NAME#v}"
+          if [ -f readme.txt ]; then
+            awk "/^= ${VERSION} =/{found=1; next} found && /^= [0-9]/{exit} found{print}" readme.txt > changelog_body.txt
+            cat changelog_body.txt
+            echo "has_body=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "has_body=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Create GitHub release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: ${{ env.SLUG }}.zip
+          body_path: ${{ steps.changelog.outputs.has_body == 'true' && 'changelog_body.txt' || '' }}
+          generate_release_notes: ${{ steps.changelog.outputs.has_body != 'true' }}
+          # Not marked pre-release even below v1.0.0: GitHub's releases/latest
+          # skips pre-releases, and the Playground blueprint depends on it.

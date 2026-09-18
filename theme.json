@@ -1,5 +1,5 @@
 {
-  "$schema": "https://schemas.wp.org/trunk/theme.json",
+  "$schema": "https://schemas.wp.org/wp/7.1/theme.json",
   "settings": {
     "appearanceTools": true,
     "color": {
@@ -62,6 +62,14 @@
         "medium": "1.8",
         "small": "1.5",
         "x-large": "2.6"
+      },
+      "navigation": {
+        "submenu": {
+          "max-width": "22rem",
+          "offset": "0.6rem",
+          "radius": "0.5rem",
+          "shadow": "0 14px 32px -10px rgb(0 0 0 / 0.18), 0 2px 6px rgb(0 0 0 / 0.08)"
+        }
       },
       "outline": {
         "width": "2px",
@@ -145,12 +153,12 @@
         {
           "name": "2X-Large",
           "size": "clamp(5rem, 8vw, 8rem)",
-          "slug": "2xl"
+          "slug": "xxl"
         },
         {
           "name": "3X-Large",
           "size": "clamp(8rem, 12vw, 12rem)",
-          "slug": "3xl"
+          "slug": "xxxl"
         }
       ],
       "units": ["rem", "em", "%", "vw", "vh", "px"]

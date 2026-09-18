@@ -78,6 +78,14 @@ h1, h2, h3, h4, h5, h6, blockquote, caption, figcaption, p {
 	overflow-x: auto;
 }
 
+/*
+* Breathing room when jumping to in-page anchors such as #comments or #respond,
+* so the target does not sit flush with the viewport edge.
+*/
+:target {
+	scroll-margin-block-start: var(--wp--preset--spacing--l);
+}
+
 /* Add spacing between list items. */
 .wp-block-list li {
 	margin-top: 0.5rem;
