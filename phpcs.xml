@@ -46,7 +46,9 @@
     <!-- Verify that text_domain is set to the desired text-domain -->
     <rule ref="WordPress.WP.I18n">
         <properties>
-            <property name="text_domain" type="array" value="wpsets"/>
+            <property name="text_domain" type="array">
+                <element value="wpsets"/>
+            </property>
         </properties>
     </rule>
 
