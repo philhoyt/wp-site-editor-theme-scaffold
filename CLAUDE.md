@@ -79,7 +79,7 @@ The `_context.scss` mixin controls whether styles apply on the front-end or in t
 | File                | Purpose                                                                             |
 | ------------------- | ----------------------------------------------------------------------------------- |
 | `style.css`         | Theme header — name, version, text domain, `Requires`/`Tested up to` metadata        |
-| `theme.json`        | All theme settings: color palette, typography, layout widths, spacing, border radii |
+| `theme.json`        | All theme settings: color palette, typography, layout widths, spacing, border radii. Its `$schema` is pinned to a released version (`wp/7.1`) and moves together with `Tested up to` in `style.css`, so the editor and validators only offer settings the theme claims to support |
 | `inc/setup.php`     | Theme setup hooks, asset enqueueing using `*.asset.php` manifests                   |
 | `functions.php`     | Minimal entry point — includes `inc/setup.php`                                      |
 | `patterns/`         | PHP patterns holding the theme's block markup (the pattern paradigm)                 |
