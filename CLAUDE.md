@@ -85,6 +85,7 @@ The `_context.scss` mixin controls whether styles apply on the front-end or in t
 | `webpack.config.js` | Build config extending `@wordpress/scripts` defaults                                |
 | `phpcs.xml`         | PHP CodeSniffer ruleset (WordPress standard + PHPCompatibilityWP)                    |
 | `phpstan.neon`      | PHPStan config (level 5, WordPress stubs)                                            |
+| `bin/wp.sh`         | WP-CLI wrapper for the Local site. Set `SITE` at the top; the scaffold has no site of its own, so it is a template until a derived theme fills it in |
 
 ### Conventions
 
