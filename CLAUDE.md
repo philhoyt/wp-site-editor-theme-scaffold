@@ -86,7 +86,7 @@ The `_context.scss` mixin controls whether styles apply on the front-end or in t
 | `webpack.config.js` | Build config extending `@wordpress/scripts` defaults                                |
 | `phpcs.xml`         | PHP CodeSniffer ruleset (WordPress standard + PHPCompatibilityWP)                    |
 | `phpstan.neon`      | PHPStan config (level 5, WordPress stubs)                                            |
-| `bin/wp.sh`         | WP-CLI wrapper for the Local site. Set `SITE` at the top; the scaffold has no site of its own, so it is a template until a derived theme fills it in |
+| `bin/wp.sh`         | WP-CLI wrapper for the Local site. `SITE` at the top is the folder name under `~/Local Sites` (`wp-sets` for the scaffold's own dev site; change it in a derived theme) and needs a one-time socket symlink, described in the script |
 | `.distignore`       | Paths excluded from the theme zip (source, tooling, dotfiles, docs, lockfiles)       |
 | `.github/workflows/release.yml` | On a `v*` tag: builds, checks the tag against `style.css` `Version` and `package.json` (and `readme.txt` `Stable tag` once one exists), stages through `.distignore`, zips with a single `<slug>/` root, and publishes a GitHub release with the fixed asset name `<slug>.zip`. Set `SLUG` in its `env:` block. The scaffold itself never tags a release; the workflow activates in a derived theme |
 
@@ -166,9 +166,9 @@ the PHP runs, reads templates and parts from disk, and parses everything with
 expected/found markup. `--from=<json>` validates an arbitrary `{"name": "markup"}` map
 instead.
 
-When `bin/wp.sh` cannot reach a site (the scaffold itself has none) the patterns are
-skipped with a warning and only templates and parts are checked. Point `SITE` in
-`bin/wp.sh` at the derived theme's Local site to cover patterns too.
+When `bin/wp.sh` cannot reach a site (no socket symlink, Local not running) the patterns
+are skipped with a warning and only templates and parts are checked. Point `SITE` in
+`bin/wp.sh` at the theme's Local site to cover patterns too.
 
 Mismatches found so far, all class-list slips: `has-background-dim-55` (core rounds
 `dimRatio` to the nearest 10, so 55 → `-60`); a separator without
