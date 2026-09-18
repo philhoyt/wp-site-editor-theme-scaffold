@@ -186,3 +186,21 @@ wp i18n make-pot . languages/wpsets.pot --include="templates,parts,patterns,inc"
 ```
 
 The `--include` paths cover both PHP source and any patterns/templates that might pick up additional strings as the theme grows.
+
+## Gotchas
+
+Things that are not derivable from the code:
+
+- **Theme patterns are cached against the theme version.** A new file in `patterns/`
+  does not register until `Version:` in `style.css` changes, or you run
+  `bin/wp.sh cache flush` and delete the `wp_theme_files_patterns*` options
+  (`bin/wp.sh option list --search='wp_theme_files_patterns*' --field=option_name | xargs -n1 bin/wp.sh option delete`).
+- **Site Editor customisations override theme files.** If the dev site does not match
+  `templates/` or `parts/`, check
+  `bin/wp.sh post list --post_type=wp_template,wp_template_part`. `wp_template` posts
+  cannot be trashed — export a backup, then `bin/wp.sh post delete <id> --force`.
+- **`context.is()` takes one argument.** Styles that apply to both the front-end and
+  the editor go outside the mixin entirely.
+- **Spacing slugs must not contain digits.** See [Conventions](#conventions).
+- **Block markup must match `save()` output.** See
+  [Block markup must validate](#block-markup-must-validate); run `npm run validate:blocks`.
