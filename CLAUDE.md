@@ -90,6 +90,16 @@ The `_context.scss` mixin controls whether styles apply on the front-end or in t
 | `.distignore`       | Paths excluded from the theme zip (source, tooling, dotfiles, docs, lockfiles)       |
 | `.github/workflows/release.yml` | On a `v*` tag: builds, checks the tag against `style.css` `Version` and `package.json` (and `readme.txt` `Stable tag` once one exists), stages through `.distignore`, zips with a single `<slug>/` root, and publishes a GitHub release with the fixed asset name `<slug>.zip`. Set `SLUG` in its `env:` block. The scaffold itself never tags a release; the workflow activates in a derived theme |
 
+### Claude Code hooks
+
+`.claude/settings.json` runs five `PostToolUse` hooks after every Edit/Write, from
+`.claude/scripts/hooks/`: phpcs (using the project `phpcs.xml`), ESLint, Stylelint, a
+security-pattern warning for PHP, and a readme-prose warning (a no-op until a
+`readme.txt` exists). Each hook only acts on the file type it covers and feeds its
+findings back as additional context; none of them block the edit. The hook scripts are
+excluded from phpcs (`phpcs.xml`), ESLint (`eslint.config.js`) and Prettier
+(`.prettierignore`) so they do not show up as lint targets themselves.
+
 ### Conventions
 
 - Tabs for indentation (PHP, JS, SCSS, HTML); spaces for JSON/YAML

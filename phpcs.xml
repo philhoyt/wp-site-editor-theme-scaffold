@@ -9,6 +9,7 @@
 
     <!-- Exclude auto-generated asset files -->
     <exclude-pattern>/dist/**/*.asset.php</exclude-pattern>
+    <exclude-pattern>/.claude/</exclude-pattern>
 
     <!-- How to scan -->
     <arg value="sp"/> <!-- Show sniff and progress -->

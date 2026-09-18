@@ -9,7 +9,7 @@ const wpScriptsConfig = require("@wordpress/scripts/config/eslint.config.cjs");
 
 module.exports = [
 	{
-		ignores: ["**/dist/**"],
+		ignores: ["**/dist/**", ".claude/**"],
 	},
 	...wpScriptsConfig,
 	{
