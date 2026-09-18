@@ -1,14 +1,104 @@
 //
 // Navigation block styles.
 //
+// Core ships the dropdown as a 200px-wide white box with a hard border, square
+// corners and no shadow, which forces long labels onto two lines. This module
+// gives it a content-sized surface and fixes the mobile overlay. It draws no
+// indicator and sets no hover colours; those belong to the derived theme.
+//
+// All values come from `settings.custom.navigation` in theme.json.
+//
+// Three core-markup traps that cost time:
+//
+// 1. `__container` is NOT a direct child of `.wp-block-navigation` -- core nests
+//    it inside the responsive-container wrappers -- so a top-level-item selector
+//    needs a descendant combinator first and a child combinator after
+//    (`.wp-block-navigation .wp-block-navigation__container > .wp-block-navigation-item`).
+// 2. The open overlay inherits the bar's `items-justified-*` alignment. In a
+//    full-screen column that becomes `align-items: flex-end`, so the three
+//    `--navigation-layout-*` custom properties the block reads must be reset.
+// 3. Core marks the open overlay's background and padding `!important`, so
+//    overriding them needs the same weight.
+//
 
-// Ensure navigation overlay respects root padding.
-// The overlay container is rendered outside the normal flow,
-// so it needs explicit padding to match root spacing.
-/* stylelint-disable-next-line selector-class-pattern */
-.wp-block-navigation__responsive-container {
-	// Apply root padding to overlay menu.
-	&.is-menu-open {
-		padding: var(--wp--style--root--padding-left, var(--wp--preset--spacing--m));
+/* stylelint-disable selector-class-pattern -- core block classes. */
+
+@use "../tools/context";
+
+// ---------------------------------------------------------------------- submenu
+.wp-block-navigation .wp-block-navigation__submenu-container {
+	background-color: var(--wp--preset--color--base);
+	border: 0;
+	border-radius: var(--wp--custom--navigation--submenu--radius);
+	box-shadow: var(--wp--custom--navigation--submenu--shadow);
+
+	// Core positions the dropdown flush against the bar.
+	inset-block-start: calc(100% + var(--wp--custom--navigation--submenu--offset));
+
+	// Size to the longest label rather than a fixed box, so a short menu stays
+	// compact and a long one still fits on one line.
+	min-inline-size: max-content;
+	max-inline-size: var(--wp--custom--navigation--submenu--max-width);
+	padding: var(--wp--preset--spacing--xs);
+}
+
+.wp-block-navigation .wp-block-navigation__submenu-container .wp-block-navigation-item__content {
+	padding: 0.5rem 0.75rem;
+	white-space: nowrap;
+}
+
+// A nested submenu opens beside its parent, not below it.
+.wp-block-navigation .wp-block-navigation__submenu-container .wp-block-navigation__submenu-container {
+	inset-block-start: calc(var(--wp--custom--navigation--submenu--offset) * -1);
+}
+
+@include context.is(front) {
+	// ------------------------------------------------------------ mobile overlay
+	//
+	// Core marks the open overlay's background and padding `!important` (trap 3),
+	// so those two need the same weight to land. The padding also restores the
+	// root padding the overlay loses by rendering outside the normal flow.
+	.wp-block-navigation__responsive-container.is-menu-open {
+		background-color: var(--wp--preset--color--base) !important;
+		padding: var(--wp--preset--spacing--xl) var(--wp--style--root--padding-left, var(--wp--preset--spacing--m)) !important;
+	}
+
+	// A right-justified bar carries `items-justified-right` into the overlay
+	// (trap 2), which right-aligns every label; reset the layout custom
+	// properties the block reads.
+	//
+	// The content wrapper needs the same reset as the lists. Core closes the
+	// current `<ul>` whenever an item renders empty (a link to a draft page does),
+	// so one menu can come out as several sibling lists, and the wrapper's
+	// `align-items: flex-end` then right-aligns each shorter list against the
+	// widest one -- which reads as everything after a certain item being indented.
+	.wp-block-navigation__responsive-container.is-menu-open .wp-block-navigation__responsive-container-content,
+	.wp-block-navigation__responsive-container.is-menu-open .wp-block-navigation__container,
+	.wp-block-navigation__responsive-container.is-menu-open .wp-block-navigation__submenu-container {
+		--navigation-layout-align: flex-start;
+		--navigation-layout-justify: flex-start;
+		--navigation-layout-justification-setting: flex-start;
+
+		align-items: flex-start;
+		text-align: start;
+	}
+
+	.wp-block-navigation__responsive-container.is-menu-open .wp-block-navigation__responsive-container-content {
+		inline-size: 100%;
+		padding-block-start: var(--wp--preset--spacing--l);
+	}
+
+	// The dropdown surface is meaningless once the menu is a full-screen list;
+	// flatten it and indent the children instead.
+	.wp-block-navigation__responsive-container.is-menu-open .wp-block-navigation__submenu-container {
+		border-inline-start: 1px solid var(--wp--preset--color--contrast-light) !important;
+		border-radius: 0;
+		box-shadow: none;
+		margin-inline-start: var(--wp--preset--spacing--xs);
+		padding-inline-start: var(--wp--preset--spacing--s);
+	}
+
+	.wp-block-navigation__responsive-container.is-menu-open .wp-block-navigation__submenu-container .wp-block-navigation-item__content {
+		white-space: normal;
 	}
 }

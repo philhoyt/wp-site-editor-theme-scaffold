@@ -90,6 +90,19 @@ The `_context.scss` mixin controls whether styles apply on the front-end or in t
 | `.distignore`       | Paths excluded from the theme zip (source, tooling, dotfiles, docs, lockfiles)       |
 | `.github/workflows/release.yml` | On a `v*` tag: builds, checks the tag against `style.css` `Version` and `package.json` (and `readme.txt` `Stable tag` once one exists), stages through `.distignore`, zips with a single `<slug>/` root, and publishes a GitHub release with the fixed asset name `<slug>.zip`. Set `SLUG` in its `env:` block. The scaffold itself never tags a release; the workflow activates in a derived theme |
 
+### Navigation
+
+`src/styles/modules/_navigation.scss` replaces core's dropdown (a 200px white box with a
+hard border and no shadow) with a content-sized surface, and fixes the mobile overlay.
+All values come from `settings.custom.navigation` in `theme.json`
+(`--wp--custom--navigation--submenu--*`); it draws no indicator and sets no hover
+colours, so a derived theme layers its look on top rather than undoing anything.
+
+Three core-markup traps, documented at the top of the module: `__container` is not a
+direct child of `.wp-block-navigation`; the open overlay inherits the bar's
+`items-justified-*` alignment and needs the three `--navigation-layout-*` custom
+properties reset; core marks the open overlay's background and padding `!important`.
+
 ### Claude Code hooks
 
 `.claude/settings.json` runs five `PostToolUse` hooks after every Edit/Write, from
