@@ -87,6 +87,8 @@ The `_context.scss` mixin controls whether styles apply on the front-end or in t
 | `phpcs.xml`         | PHP CodeSniffer ruleset (WordPress standard + PHPCompatibilityWP)                    |
 | `phpstan.neon`      | PHPStan config (level 5, WordPress stubs)                                            |
 | `bin/wp.sh`         | WP-CLI wrapper for the Local site. Set `SITE` at the top; the scaffold has no site of its own, so it is a template until a derived theme fills it in |
+| `.distignore`       | Paths excluded from the theme zip (source, tooling, dotfiles, docs, lockfiles)       |
+| `.github/workflows/release.yml` | On a `v*` tag: builds, checks the tag against `style.css` `Version` and `package.json` (and `readme.txt` `Stable tag` once one exists), stages through `.distignore`, zips with a single `<slug>/` root, and publishes a GitHub release with the fixed asset name `<slug>.zip`. Set `SLUG` in its `env:` block. The scaffold itself never tags a release; the workflow activates in a derived theme |
 
 ### Conventions
 
