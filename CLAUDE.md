@@ -92,6 +92,11 @@ The `_context.scss` mixin controls whether styles apply on the front-end or in t
 - Theme layout uses CSS Grid on `.wp-site-blocks` (header/main/footer)
 - Core block patterns are disabled; custom patterns go in `patterns/`
 - Admin bar height is exposed as a CSS custom property for layout offset calculations
+- Spacing preset slugs must not contain digits. WordPress kebab-cases slugs when it emits
+  custom properties, so a `2xl` slug becomes `--wp--preset--spacing--2-xl` and any
+  `var(--wp--preset--spacing--2xl)` written in a pattern or SCSS resolves to nothing,
+  silently. The scale is `xs s m l xl xxl xxxl`. (The border-radius slugs are already
+  written as `2-xl` / `3-xl`, which matches what WordPress emits.)
 
 ### Patterns
 

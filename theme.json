@@ -145,12 +145,12 @@
         {
           "name": "2X-Large",
           "size": "clamp(5rem, 8vw, 8rem)",
-          "slug": "2xl"
+          "slug": "xxl"
         },
         {
           "name": "3X-Large",
           "size": "clamp(8rem, 12vw, 12rem)",
-          "slug": "3xl"
+          "slug": "xxxl"
         }
       ],
       "units": ["rem", "em", "%", "vw", "vh", "px"]
