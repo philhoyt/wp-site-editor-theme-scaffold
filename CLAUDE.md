@@ -105,6 +105,8 @@ excluded from phpcs (`phpcs.xml`), ESLint (`eslint.config.js`) and Prettier
 - Tabs for indentation (PHP, JS, SCSS, HTML); spaces for JSON/YAML
 - Theme layout uses CSS Grid on `.wp-site-blocks` (header/main/footer)
 - Core block patterns are disabled; custom patterns go in `patterns/`
+- No custom image sizes are registered. Add `add_image_size()` in the derived theme only once a pattern or template consumes the size — unused sizes bloat every upload and get flagged in a directory review
+- `dist/css/style-rtl.css` is served automatically via `wp_style_add_data( …, 'rtl', 'replace' )`; nothing extra is needed for RTL locales
 - Admin bar height is exposed as a CSS custom property for layout offset calculations
 - Spacing preset slugs must not contain digits. WordPress kebab-cases slugs when it emits
   custom properties, so a `2xl` slug becomes `--wp--preset--spacing--2-xl` and any
