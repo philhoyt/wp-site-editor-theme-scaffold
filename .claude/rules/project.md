@@ -36,6 +36,16 @@ patterns; there are no PHP page templates.
   `patterns/` (the pattern paradigm, like Twenty Twenty-Five).
 - Build: `src/` → webpack (`@wordpress/scripts`) → `dist/`. SCSS only; `src/scripts/` is
   reserved for future theme JS.
+- Spacing preset slugs contain no digits (`xs s m l xl xxl xxxl`); WordPress kebab-cases
+  a `2xl` slug to `2-xl` when it emits the custom property.
+- Block markup in `patterns/`, `templates/` and `parts/` must match each block's
+  `save()` output; run `npm run validate:blocks` after touching any of them.
+- `theme.json` `$schema` is pinned to a released version and moves with `Tested up to`.
+- `.claude/settings.json` runs phpcs / ESLint / Stylelint / security / readme hooks after
+  every Edit/Write from `.claude/scripts/hooks/`; those scripts are excluded from lint.
+- Release: `.github/workflows/release.yml` runs on `v*` tags, stages through
+  `.distignore`, and publishes `<slug>.zip`. The scaffold never tags; set `SLUG` in the
+  derived theme.
 
 ## Commands
 
@@ -43,3 +53,5 @@ patterns; there are no PHP page templates.
 - `npm run lint:scss` / `npm run lint:js` — Stylelint / ESLint
 - `npm run build` / `npm run start` — production build / dev watch
 - `wp i18n make-pot . languages/wpsets.pot --include="templates,parts,patterns,inc"`
+- `npm run validate:blocks` — parse patterns/templates/parts with the core block registry
+- `bin/wp.sh <command>` — WP-CLI against the Local site named by `SITE` at the top of the script
