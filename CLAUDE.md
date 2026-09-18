@@ -23,6 +23,7 @@ npm run format:check   # Check formatting without writing
 
 # Utilities
 npm run screenshot     # Capture screenshot.png of the local site (Puppeteer)
+npm run validate:blocks # Parse patterns/templates/parts with the core block registry; fails on any block that would enter recovery mode
 npm run packages-update # Update @wordpress/* packages
 ```
 
@@ -125,6 +126,29 @@ This scaffold follows the **pattern-paradigm** used by Twenty Twenty-Five: templ
 - `template-*.php` — full-page or major-region patterns that compose a template (`template-query-loop`)
 - `hidden-*.php` — internal building blocks referenced only from templates or other patterns; not shown in the inserter
 - Other names (`comments.php`, `post-navigation.php`) — reusable building blocks that may also surface in the inserter
+
+### Block markup must validate
+
+Patterns, templates and parts are hand-written serialised block HTML. If the HTML does
+not match what the block's `save()` would produce, the editor drops the block into
+recovery mode, and repairing it from the Site Editor inlines the pattern markup and
+breaks i18n. **Run `npm run validate:blocks` after touching any of them** — it boots the
+core block registry under jsdom, renders the patterns through WP-CLI (`bin/wp.sh`) so
+the PHP runs, reads templates and parts from disk, and parses everything with
+`@wordpress/blocks`; a block that would enter recovery mode fails the run with the
+expected/found markup. `--from=<json>` validates an arbitrary `{"name": "markup"}` map
+instead.
+
+When `bin/wp.sh` cannot reach a site (the scaffold itself has none) the patterns are
+skipped with a warning and only templates and parts are checked. Point `SITE` in
+`bin/wp.sh` at the derived theme's Local site to cover patterns too.
+
+Mismatches found so far, all class-list slips: `has-background-dim-55` (core rounds
+`dimRatio` to the nearest 10, so 55 → `-60`); a separator without
+`has-alpha-channel-opacity` (present whenever no opacity is set); the cover's `<img>`
+must come before the overlay `<span>` in the current save format (span-first only
+matches a deprecation and gets silently rewritten). Class order and inline-style order
+do not matter — the validator compares them as sets — but missing or extra classes do.
 
 ### Translations
 
