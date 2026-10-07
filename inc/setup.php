@@ -147,3 +147,35 @@ function hide_locked_comments( $block_content, $block, $instance ) {
 	return post_password_required( $post_id ) ? '' : $block_content;
 }
 add_filter( 'render_block_core/comments', __NAMESPACE__ . '\\hide_locked_comments', 10, 3 );
+
+/**
+ * Merge a fallback Page List into the navigation's own list.
+ *
+ * When a Navigation block falls back to a Page List (no menu chosen, or a
+ * menu that is only a Page List), core renders the list's own <ul> directly
+ * inside the navigation's <ul>. A list may only contain list items (WCAG
+ * 1.3.1; axe "list"), so the inner <ul> is merged into the outer one. Submenus
+ * close as </ul></li>, so the first </ul></ul> is the page list's end.
+ *
+ * @since 0.0.0
+ * @param string $content Rendered navigation block.
+ * @return string
+ */
+function unwrap_page_list_in_navigation( $content ) {
+	$opened = preg_replace(
+		'#<ul class="wp-block-navigation__container([^"]*)">\s*<ul class="wp-block-page-list">#',
+		'<ul class="wp-block-navigation__container$1 wp-block-page-list">',
+		$content,
+		1,
+		$count
+	);
+
+	if ( 1 !== $count ) {
+		return $content;
+	}
+
+	$closed = preg_replace( '#</ul>\s*</ul>#', '</ul>', $opened, 1, $count );
+
+	return 1 === $count ? $closed : $content;
+}
+add_filter( 'render_block_core/navigation', __NAMESPACE__ . '\\unwrap_page_list_in_navigation' );
