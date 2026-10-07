@@ -1,4 +1,4 @@
-#!/bin/zsh
+#!/usr/bin/env bash
 # WP-CLI for this theme's dev site.
 #
 # Prefers the Local site when its MySQL socket is reachable, and falls back to
