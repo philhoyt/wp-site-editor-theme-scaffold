@@ -1,0 +1,22 @@
+//
+// Module: utilities.
+//
+// Small classes for patterns. Shared by the front end and the editor.
+//
+
+// Prefixes an element with a middle-dot separator. Put it on items that render
+// conditionally (the comment Edit link only exists for editors), so the dot
+// appears and disappears with its element instead of leaving an orphan. The
+// empty alternative text keeps screen readers from announcing "middle dot";
+// browsers without the `/ ""` syntax use the first declaration.
+.dot-before::before {
+	content: "·";
+	content: "·" / "";
+	padding-inline: 0.5em;
+}
+
+// No separator when nothing comes before it, such as a meta row whose first
+// item did not render.
+.dot-before:first-child::before {
+	content: none;
+}

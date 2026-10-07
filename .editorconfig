@@ -13,12 +13,14 @@ trim_trailing_whitespace = true
 # PHP files
 [*.php]
 indent_style = tab
-indent_size = 1
+indent_size = tab
+tab_width = 4
 
 # JavaScript files
 [*.js]
 indent_style = tab
-indent_size = 1
+indent_size = tab
+tab_width = 4
 
 # JSON files
 [*.json]
@@ -37,12 +39,14 @@ trim_trailing_whitespace = false
 # SCSS/CSS files
 [*.{css,scss,sass}]
 indent_style = tab
-indent_size = 1
+indent_size = tab
+tab_width = 4
 
 # HTML files
 [*.html]
 indent_style = tab
-indent_size = 1
+indent_size = tab
+tab_width = 4
 
 # XML files
 [*.xml]

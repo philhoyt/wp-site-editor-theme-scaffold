@@ -5,9 +5,14 @@
  * Categories: footer
  * Block Types: core/template-part/footer
  * Description: Site footer with logo, copyright, site title, and navigation.
+ * Viewport Width: 1280
  *
  * @package wpsets
  */
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 ?>
 <!-- wp:group {"backgroundColor":"contrast-light","layout":{"type":"constrained"}} -->

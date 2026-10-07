@@ -18,7 +18,20 @@
     "lint:php:fix": "composer run-script lint-fix",
     "packages-update": "wp-scripts packages-update",
     "screenshot": "node bin/screenshot.js",
-    "validate:blocks": "node bin/validate-blocks.js"
+    "validate:blocks": "node bin/validate-blocks.js",
+    "wp-env:start": "wp-env start",
+    "wp-env:stop": "wp-env stop",
+    "patterns:flush": "bin/wp.sh eval-file bin/flush-patterns.php",
+    "export:templates": "bin/wp.sh eval-file bin/export-templates.php",
+    "export:templates:write": "bin/wp.sh eval-file bin/export-templates.php write && npm run validate:blocks",
+    "export:templates:delete": "npm run validate:blocks && bin/wp.sh eval-file bin/export-templates.php delete",
+    "seed": "bin/wp.sh eval-file bin/seed-content.php",
+    "review:start": "mkdir -p build/wpsets-check && wp-env start --config=.wp-env.review.json",
+    "review:stop": "wp-env stop --config=.wp-env.review.json",
+    "review:import": "wp-env run cli --config=.wp-env.review.json bash -c \"curl -sL https://raw.githubusercontent.com/WordPress/theme-test-data/master/themeunittestdata.wordpress.xml -o /tmp/tut.xml && wp import /tmp/tut.xml --authors=create\"",
+    "review:check": "npm run build && mkdir -p build/wpsets-check && rsync -a --delete --exclude-from=.distignore --exclude=build ./ build/wpsets-check/ && wp-env run cli --config=.wp-env.review.json wp theme-check run wpsets-check",
+    "test:smoke": "node bin/smoke.js",
+    "check:a11y": "node bin/check-a11y.js"
   },
   "overrides": {
     "@sentry/node": {
@@ -34,18 +47,26 @@
     "webpack-dev-server": "5.2.3"
   },
   "devDependencies": {
-    "@stylistic/stylelint-plugin": "^3.0.0",
-    "puppeteer": "^24.0.0",
-    "mini-css-extract-plugin": "^2.9.4",
+    "@stylistic/stylelint-plugin": "^5.3.1",
+    "@wordpress/block-library": "^11.1.0",
+    "@wordpress/blocks": "^16.1.0",
     "@wordpress/dependency-extraction-webpack-plugin": "^6.43.0",
-    "@wordpress/scripts": "^32.2.0",
+    "@wordpress/env": "^11.16.0",
+    "@wordpress/scripts": "^35.0.0",
+    "axe-core": "^4.14.0",
     "editorconfig": "^3.0.1",
-    "prettier": "^3.0.0",
-    "sass": "^1.86.3",
-    "stylelint": "^16.0.0",
-    "stylelint-config-standard-scss": "^13.0.0",
     "jsdom": "^29.1.1",
-    "@wordpress/blocks": "^16.0.0",
-    "@wordpress/block-library": "^11.0.0"
+    "mini-css-extract-plugin": "^2.9.4",
+    "prettier": "^3.0.0",
+    "puppeteer": "^25.12.0",
+    "sass": "^1.86.3",
+    "stylelint": "^17.16.0",
+    "stylelint-config-standard-scss": "^17.0.0"
+  },
+  "validateBlocks": {
+    "allow": []
+  },
+  "engines": {
+    "node": ">=22.13.0"
   }
 }

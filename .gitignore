@@ -51,3 +51,10 @@ Thumbs.db
 
 # Claude Code — machine-specific session permissions, not shared
 .claude/settings.local.json
+
+# wp-env — per-machine overrides
+.wp-env.override.json
+.wp-env.*.override.json
+
+# Release and Theme Check staging
+/build
