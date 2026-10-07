@@ -30,7 +30,8 @@
     "review:stop": "wp-env stop --config=.wp-env.review.json",
     "review:import": "wp-env run cli --config=.wp-env.review.json bash -c \"curl -sL https://raw.githubusercontent.com/WordPress/theme-test-data/master/themeunittestdata.wordpress.xml -o /tmp/tut.xml && wp import /tmp/tut.xml --authors=create\"",
     "review:check": "npm run build && mkdir -p build/wpsets-check && rsync -a --delete --exclude-from=.distignore --exclude=build ./ build/wpsets-check/ && wp-env run cli --config=.wp-env.review.json wp theme-check run wpsets-check",
-    "test:smoke": "node bin/smoke.js"
+    "test:smoke": "node bin/smoke.js",
+    "check:a11y": "node bin/check-a11y.js"
   },
   "overrides": {
     "@sentry/node": {
@@ -52,6 +53,7 @@
     "@wordpress/dependency-extraction-webpack-plugin": "^6.43.0",
     "@wordpress/env": "^11.16.0",
     "@wordpress/scripts": "^35.0.0",
+    "axe-core": "^4.14.0",
     "editorconfig": "^3.0.1",
     "jsdom": "^29.1.1",
     "mini-css-extract-plugin": "^2.9.4",
