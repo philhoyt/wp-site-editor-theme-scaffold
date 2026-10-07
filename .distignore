@@ -34,3 +34,5 @@ phpunit.xml
 tests
 .phpunit.result.cache
 build
+dist/css/*.js
+.gitkeep
