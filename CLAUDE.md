@@ -203,10 +203,11 @@ The `--include` paths cover both PHP source and any patterns/templates that migh
 
 Things that are not derivable from the code:
 
-- **Theme patterns are cached against the theme version.** A new file in `patterns/`
-  does not register until `Version:` in `style.css` changes, or you run
-  `bin/wp.sh cache flush` and delete the `wp_theme_files_patterns*` options
-  (`bin/wp.sh option list --search='wp_theme_files_patterns*' --field=option_name | xargs -n1 bin/wp.sh option delete`).
+- **Theme patterns are cached against the theme version.** WordPress keeps the files
+  under `patterns/` in a site transient (`wp_theme_files_patterns-<hash>`), so a new or
+  renamed pattern file does not register until `Version:` in `style.css` changes. Run
+  `npm run patterns:flush` (`bin/flush-patterns.php`) to clear it, or define
+  `WP_DEVELOPMENT_MODE` as `'theme'` on the dev site to turn the cache off.
 - **Site Editor customisations override theme files.** If the dev site does not match
   `templates/` or `parts/`, check
   `bin/wp.sh post list --post_type=wp_template,wp_template_part`. `wp_template` posts

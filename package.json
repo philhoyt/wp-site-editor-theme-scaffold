@@ -20,7 +20,8 @@
     "screenshot": "node bin/screenshot.js",
     "validate:blocks": "node bin/validate-blocks.js",
     "wp-env:start": "wp-env start",
-    "wp-env:stop": "wp-env stop"
+    "wp-env:stop": "wp-env stop",
+    "patterns:flush": "bin/wp.sh eval-file bin/flush-patterns.php"
   },
   "overrides": {
     "@sentry/node": {
