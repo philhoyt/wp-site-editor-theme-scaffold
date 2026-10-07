@@ -10,8 +10,41 @@ body {
 	overflow-wrap: break-word;
 }
 
+// Sticky headers: Position → Sticky on the header's root block has no room to
+// travel, because the template part's wrapper is exactly as tall as its
+// content, so the wrapper carries the stickiness instead. Keyed on the class
+// core emits for that setting, so any header set to sticky just works.
+// Without :has() support the header stays in the flow, which is still usable.
+header.wp-block-template-part:has(> .is-position-sticky) {
+	position: sticky;
+	inset-block-start: 0;
+	z-index: 10;
+	background-color: inherit;
+
+	body.admin-bar & {
+		inset-block-start: var(--global--admin-bar--height);
+	}
+
+	// Below 600px the admin bar scrolls away with the page.
+	@media (width < 600px) {
+		body.admin-bar & {
+			inset-block-start: 0;
+		}
+	}
+}
+
+@include context.is(editor) {
+	// The editor forces position: relative on block wrappers.
+	header.wp-block-template-part:has(> .is-position-sticky) {
+		position: sticky !important;
+	}
+}
+
 @include context.is(front) {
 	.wp-site-blocks {
+		// Passes the body background down to a sticky header, so content never
+		// shows through it.
+		background-color: inherit;
 		width: 100%;
 		min-block-size: 100svh;
 		display: grid;
