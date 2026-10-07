@@ -35,8 +35,8 @@ a {
 
 /* Focus styles */
 :where(.wp-site-blocks *:focus) {
-	outline-width: 2px;
-	outline-style: solid;
+	outline-width: var(--wp--custom--outline--width);
+	outline-style: var(--wp--custom--outline--style);
 	outline-color: var(--wp--preset--color--tertiary);
 }
 
