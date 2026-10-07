@@ -2,7 +2,7 @@
 // Editor stylesheet.
 //
 
-// Set $is-editor to true, which will be inherited anywhere the tools/context module is used.
+// Set the context to editor; every module that uses tools/context inherits it.
 @use 'tools/context' with (
 	$context: editor,
 );
@@ -10,12 +10,7 @@
 // Import base styles.
 @use 'base/global/admin-bar';
 
-// Import modules.
+// Import modules. Front-only rules inside them are skipped by the context.
 @use 'modules/site';
-
-.acf-block-preview {
-	a {
-		cursor: not-allowed;
-		pointer-events: none;
-	}
-}
+@use 'modules/forms';
+@use 'modules/links';
