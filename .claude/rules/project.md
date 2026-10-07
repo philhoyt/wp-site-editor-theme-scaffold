@@ -52,6 +52,6 @@ patterns; there are no PHP page templates.
 - `composer lint` / `composer lint-fix` — phpcs / phpcbf
 - `npm run lint:scss` / `npm run lint:js` — Stylelint / ESLint
 - `npm run build` / `npm run start` — production build / dev watch
-- `wp i18n make-pot . languages/wpsets.pot --include="templates,parts,patterns,inc"`
+- `wp i18n make-pot . languages/wpsets.pot --include="templates,parts,patterns,inc,theme.json"`
 - `npm run validate:blocks` — parse patterns/templates/parts with the core block registry
 - `bin/wp.sh <command>` — WP-CLI against the Local site named by `SITE` at the top of the script

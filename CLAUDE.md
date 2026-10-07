@@ -199,10 +199,10 @@ do not matter — the validator compares them as sets — but missing or extra c
 User-facing strings live in `patterns/*.php` wrapped in `esc_html__()`, `esc_html_e()`, `esc_html_x()`, or `esc_attr_x()` with the `wpsets` text domain. To regenerate `languages/wpsets.pot`:
 
 ```bash
-wp i18n make-pot . languages/wpsets.pot --include="templates,parts,patterns,inc"
+wp i18n make-pot . languages/wpsets.pot --include="templates,parts,patterns,inc,theme.json"
 ```
 
-The `--include` paths cover both PHP source and any patterns/templates that might pick up additional strings as the theme grows.
+The `--include` paths cover both PHP source and any patterns/templates that might pick up additional strings as the theme grows; `theme.json` carries the custom template titles.
 
 ## Gotchas
 
