@@ -4,12 +4,21 @@
 
 @use "../tools/context";
 
+// One long word, URL or <pre> line would otherwise push the page wider than
+// the screen on phones.
+body {
+	overflow-wrap: break-word;
+}
+
 @include context.is(front) {
 	.wp-site-blocks {
 		width: 100%;
 		min-block-size: 100svh;
 		display: grid;
-		grid-template-columns: 1fr;
+
+		// minmax(0, …): a plain 1fr track grows to its widest child, so a wide
+		// table or code block widens the header and footer with it.
+		grid-template-columns: minmax(0, 1fr);
 		grid-template-rows: auto 1fr auto;
 		grid-template-areas:
 			"header"
