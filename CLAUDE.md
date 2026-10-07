@@ -150,6 +150,7 @@ This scaffold follows the **pattern-paradigm** used by Twenty Twenty-Five: templ
 | `Categories:` | Inserter grouping (`header`, `footer`, `query`, `text`) |
 | `Block Types:` | Marks the pattern as a starter for that block (e.g. `core/query`, `core/comments`) |
 | `Inserter: no` | Suppresses the pattern from the inserter UI |
+| `Viewport Width:` | Width the inserter preview renders at; `1280` on full-width patterns so the preview is not squeezed to a mobile layout |
 
 **Naming conventions**
 
