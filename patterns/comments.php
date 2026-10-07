@@ -11,11 +11,11 @@
 
 ?>
 <!-- wp:comments {"className":"wp-block-comments-query-loop","style":{"spacing":{"margin":{"top":"var:preset|spacing|xl","bottom":"var:preset|spacing|xl"}}}} -->
-<div class="wp-block-comments wp-block-comments-query-loop" style="margin-top:var(--wp--preset--spacing--xl);margin-bottom:var(--wp--preset--spacing--xl)"><!-- wp:heading {"fontSize":"x-large"} -->
-<h2 class="wp-block-heading has-x-large-font-size"><?php esc_html_e( 'Comments', 'wpsets' ); ?></h2>
+<div class="wp-block-comments wp-block-comments-query-loop" style="margin-top:var(--wp--preset--spacing--xl);margin-bottom:var(--wp--preset--spacing--xl)"><!-- wp:heading {"fontSize":"xl"} -->
+<h2 class="wp-block-heading has-xl-font-size"><?php esc_html_e( 'Comments', 'wpsets' ); ?></h2>
 <!-- /wp:heading -->
 
-<!-- wp:comments-title {"level":3,"fontSize":"large"} /-->
+<!-- wp:comments-title {"level":3,"fontSize":"l"} /-->
 
 <!-- wp:comment-template -->
 <!-- wp:group {"style":{"spacing":{"margin":{"top":"0","bottom":"var:preset|spacing|m"}}}} -->
@@ -23,9 +23,9 @@
 <div class="wp-block-group"><!-- wp:avatar {"size":50} /-->
 
 <!-- wp:group -->
-<div class="wp-block-group"><!-- wp:comment-date /-->
+<div class="wp-block-group"><!-- wp:comment-author-name /-->
 
-<!-- wp:comment-author-name /-->
+<!-- wp:comment-date /-->
 
 <!-- wp:comment-content /-->
 
