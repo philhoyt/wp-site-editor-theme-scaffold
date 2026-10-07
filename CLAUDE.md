@@ -162,13 +162,25 @@ recovery mode, and repairing it from the Site Editor inlines the pattern markup 
 breaks i18n. **Run `npm run validate:blocks` after touching any of them** — it boots the
 core block registry under jsdom, renders the patterns through WP-CLI (`bin/wp.sh`) so
 the PHP runs, reads templates and parts from disk, and parses everything with
-`@wordpress/blocks`; a block that would enter recovery mode fails the run with the
-expected/found markup. `--from=<json>` validates an arbitrary `{"name": "markup"}` map
-instead.
+`@wordpress/blocks`. It fails on:
 
-When `bin/wp.sh` cannot reach a site (no socket symlink, Local not running) the patterns
-are skipped with a warning and only templates and parts are checked. Point `SITE` in
-`bin/wp.sh` at the theme's Local site to cover patterns too.
+- an **unknown block name** (a typo parses as `core/missing`, which core counts as valid);
+- **invalid** markup — the block would enter recovery mode (expected/found is printed);
+- markup that matches only a **deprecated** `save()` — the editor silently rewrites it and
+  the template shows as customised;
+- a `wp:pattern` slug that is not registered, or a `wp:template-part` slug with no
+  `parts/<slug>.html`.
+
+Pass file paths to check only those (`npm run validate:blocks -- patterns/header.php
+templates/page.html`); `--from=<json>` validates an arbitrary `{"name": "markup"}` map
+instead. Plugin blocks cannot be validated outside the editor: list their namespaces in
+`package.json` under `"validateBlocks": { "allow": [] }` (or pass `--allow=ns,ns`) and
+they are counted as skipped while the core blocks inside them are still checked.
+
+When `bin/wp.sh` cannot reach a site (Local not running and wp-env not started), or the
+theme is not active there, the patterns and the pattern-slug check are skipped with a
+warning and only templates and parts are checked. `npm run wp-env:start` gives
+`bin/wp.sh` a site to fall back to.
 
 Mismatches found so far, all class-list slips: `has-background-dim-55` (core rounds
 `dimRatio` to the nearest 10, so 55 → `-60`); a separator without

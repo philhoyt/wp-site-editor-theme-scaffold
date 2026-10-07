@@ -50,5 +50,8 @@
     "sass": "^1.86.3",
     "stylelint": "^16.0.0",
     "stylelint-config-standard-scss": "^13.0.0"
+  },
+  "validateBlocks": {
+    "allow": []
   }
 }
