@@ -179,3 +179,31 @@ function unwrap_page_list_in_navigation( $content ) {
 	return 1 === $count ? $closed : $content;
 }
 add_filter( 'render_block_core/navigation', __NAMESPACE__ . '\\unwrap_page_list_in_navigation' );
+
+/**
+ * Mark a button with the `is-current` class as the current page.
+ *
+ * The Button block has no aria-current attribute, so writing one into saved
+ * markup would fail block validation. A pattern marks the current button
+ * with the class (a category row, a tab strip) and this adds the attribute on
+ * output.
+ *
+ * @since 0.0.0
+ * @param string $block_content Rendered block HTML.
+ * @param array  $block         Parsed block.
+ * @return string
+ */
+function mark_current_button( $block_content, $block ) {
+	$class_name = isset( $block['attrs']['className'] ) ? (string) $block['attrs']['className'] : '';
+	if ( ! in_array( 'is-current', preg_split( '/\s+/', $class_name, -1, PREG_SPLIT_NO_EMPTY ), true ) ) {
+		return $block_content;
+	}
+
+	$processor = new \WP_HTML_Tag_Processor( $block_content );
+	if ( $processor->next_tag( array( 'class_name' => 'wp-block-button__link' ) ) ) {
+		$processor->set_attribute( 'aria-current', 'page' );
+	}
+
+	return $processor->get_updated_html();
+}
+add_filter( 'render_block_core/button', __NAMESPACE__ . '\\mark_current_button', 10, 2 );
