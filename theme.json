@@ -177,26 +177,31 @@
       ],
       "fontSizes": [
         {
+          "fluid": false,
           "name": "3X-Small",
           "size": "0.625rem",
           "slug": "xxxs"
         },
         {
+          "fluid": false,
           "name": "2X-Small",
           "size": "0.75rem",
           "slug": "xxs"
         },
         {
+          "fluid": false,
           "name": "X-Small",
           "size": "0.875rem",
           "slug": "xs"
         },
         {
+          "fluid": false,
           "name": "Small",
           "size": "1rem",
           "slug": "s"
         },
         {
+          "fluid": false,
           "name": "Medium",
           "size": "1.125rem",
           "slug": "m"
