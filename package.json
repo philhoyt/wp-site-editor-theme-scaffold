@@ -40,22 +40,25 @@
     "webpack-dev-server": "5.2.3"
   },
   "devDependencies": {
-    "@stylistic/stylelint-plugin": "^3.0.0",
-    "@wordpress/block-library": "^11.0.0",
-    "@wordpress/blocks": "^16.0.0",
+    "@stylistic/stylelint-plugin": "^5.3.1",
+    "@wordpress/block-library": "^11.1.0",
+    "@wordpress/blocks": "^16.1.0",
     "@wordpress/dependency-extraction-webpack-plugin": "^6.43.0",
     "@wordpress/env": "^11.16.0",
-    "@wordpress/scripts": "^32.2.0",
+    "@wordpress/scripts": "^35.0.0",
     "editorconfig": "^3.0.1",
     "jsdom": "^29.1.1",
     "mini-css-extract-plugin": "^2.9.4",
     "prettier": "^3.0.0",
-    "puppeteer": "^24.0.0",
+    "puppeteer": "^25.12.0",
     "sass": "^1.86.3",
-    "stylelint": "^16.0.0",
-    "stylelint-config-standard-scss": "^13.0.0"
+    "stylelint": "^17.16.0",
+    "stylelint-config-standard-scss": "^17.0.0"
   },
   "validateBlocks": {
     "allow": []
+  },
+  "engines": {
+    "node": ">=22.13.0"
   }
 }
