@@ -175,23 +175,23 @@ if (fromArg) {
 		}
 	}
 
-	if (!fileArgs.length || wantedPatterns.size) {
-		const fetched = fetchPatterns();
-		if (fetched && !Object.keys(fetched.patterns).length) {
-			console.error(
-				`Patterns skipped: no ${textDomain}/ patterns registered. Is the theme active on the site behind bin/wp.sh?`
-			);
-		} else if (fetched) {
-			registered = new Set(fetched.names);
-			for (const [name, content] of Object.entries(fetched.patterns)) {
-				if (!wantedPatterns.size || wantedPatterns.has(name)) {
-					docs.push({ name: `pattern ${name}`, content });
-				}
+	// Fetched even when only HTML files are named, so their wp:pattern
+	// references can be checked against the registry.
+	const fetched = fetchPatterns();
+	if (fetched && !Object.keys(fetched.patterns).length) {
+		console.error(
+			`Patterns skipped: no ${textDomain}/ patterns registered. Is the theme active on the site behind bin/wp.sh?`
+		);
+	} else if (fetched) {
+		registered = new Set(fetched.names);
+		for (const [name, content] of Object.entries(fetched.patterns)) {
+			if (!fileArgs.length || wantedPatterns.has(name)) {
+				docs.push({ name: `pattern ${name}`, content });
 			}
-			for (const slug of wantedPatterns) {
-				if (!(slug in fetched.patterns)) {
-					console.error(`pattern ${slug} is not registered (npm run patterns:flush, or bump Version).`);
-				}
+		}
+		for (const slug of wantedPatterns) {
+			if (!(slug in fetched.patterns)) {
+				console.error(`pattern ${slug} is not registered (npm run patterns:flush, or bump Version).`);
 			}
 		}
 	}
