@@ -20,7 +20,7 @@ patterns; there are no PHP page templates.
 - Slug / text domain: `wpsets`
 - PHP namespace: `WPSETS\Setup`
 - PHP minimum: 7.4 (`Requires PHP` in `style.css`)
-- WP minimum: 6.0 (`Requires at least`); Tested up to: 7.0
+- WP minimum: 6.6 (`Requires at least`, the theme.json v3 floor); Tested up to: 7.1
 - Main entry: `functions.php` → `inc/setup.php`
 - Version: `style.css` `Version:` header (kept at `0.0.0` on purpose — set per derived theme).
   Asset cache-busting uses `dist/css/*.asset.php` versions, not a PHP constant.

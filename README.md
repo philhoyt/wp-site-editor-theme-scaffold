@@ -11,7 +11,7 @@ WP-SETS is a modern WordPress theme scaffold designed with the Site Editor in mi
 
 ## Requirements
 
-- WordPress 6.0+
+- WordPress 6.6+
 - PHP 7.4+
 - Node.js 14+
 - Composer

@@ -23,7 +23,7 @@
     <rule ref="PHPCompatibilityWP"/>
 
     <!-- Rules: WordPress Coding Standards -->
-    <config name="minimum_supported_wp_version" value="6.0"/>
+    <config name="minimum_supported_wp_version" value="6.6"/>
     <rule ref="WordPress">
         <exclude name="WordPress.PHP.YodaConditions.NotYoda" />
         <exclude name="Universal.Arrays.DisallowShortArraySyntax" />
