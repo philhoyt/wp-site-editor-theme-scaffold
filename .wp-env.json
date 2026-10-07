@@ -1,0 +1,16 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/wp-env.json",
+  "core": null,
+  "phpVersion": "8.2",
+  "port": 8888,
+  "mappings": {
+    "wp-content/themes/wpsets": "."
+  },
+  "config": {
+    "WP_DEBUG": true,
+    "WP_DEBUG_DISPLAY": true
+  },
+  "lifecycleScripts": {
+    "afterStart": "wp-env run cli wp theme activate wpsets"
+  }
+}

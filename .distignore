@@ -26,6 +26,8 @@ eslint.config.js
 webpack.config.js
 phpcs.xml
 phpstan.neon
+.wp-env.json
+.wp-env.*.json
 CLAUDE.md
 README.md
 phpunit.xml

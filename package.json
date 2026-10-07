@@ -18,7 +18,9 @@
     "lint:php:fix": "composer run-script lint-fix",
     "packages-update": "wp-scripts packages-update",
     "screenshot": "node bin/screenshot.js",
-    "validate:blocks": "node bin/validate-blocks.js"
+    "validate:blocks": "node bin/validate-blocks.js",
+    "wp-env:start": "wp-env start",
+    "wp-env:stop": "wp-env stop"
   },
   "overrides": {
     "@sentry/node": {
@@ -35,17 +37,18 @@
   },
   "devDependencies": {
     "@stylistic/stylelint-plugin": "^3.0.0",
-    "puppeteer": "^24.0.0",
-    "mini-css-extract-plugin": "^2.9.4",
+    "@wordpress/block-library": "^11.0.0",
+    "@wordpress/blocks": "^16.0.0",
     "@wordpress/dependency-extraction-webpack-plugin": "^6.43.0",
+    "@wordpress/env": "^11.16.0",
     "@wordpress/scripts": "^32.2.0",
     "editorconfig": "^3.0.1",
+    "jsdom": "^29.1.1",
+    "mini-css-extract-plugin": "^2.9.4",
     "prettier": "^3.0.0",
+    "puppeteer": "^24.0.0",
     "sass": "^1.86.3",
     "stylelint": "^16.0.0",
-    "stylelint-config-standard-scss": "^13.0.0",
-    "jsdom": "^29.1.1",
-    "@wordpress/blocks": "^16.0.0",
-    "@wordpress/block-library": "^11.0.0"
+    "stylelint-config-standard-scss": "^13.0.0"
   }
 }
