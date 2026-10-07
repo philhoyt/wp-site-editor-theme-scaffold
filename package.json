@@ -29,7 +29,8 @@
     "review:start": "mkdir -p build/wpsets-check && wp-env start --config=.wp-env.review.json",
     "review:stop": "wp-env stop --config=.wp-env.review.json",
     "review:import": "wp-env run cli --config=.wp-env.review.json bash -c \"curl -sL https://raw.githubusercontent.com/WordPress/theme-test-data/master/themeunittestdata.wordpress.xml -o /tmp/tut.xml && wp import /tmp/tut.xml --authors=create\"",
-    "review:check": "npm run build && mkdir -p build/wpsets-check && rsync -a --delete --exclude-from=.distignore --exclude=build ./ build/wpsets-check/ && wp-env run cli --config=.wp-env.review.json wp theme-check run wpsets-check"
+    "review:check": "npm run build && mkdir -p build/wpsets-check && rsync -a --delete --exclude-from=.distignore --exclude=build ./ build/wpsets-check/ && wp-env run cli --config=.wp-env.review.json wp theme-check run wpsets-check",
+    "test:smoke": "node bin/smoke.js"
   },
   "overrides": {
     "@sentry/node": {

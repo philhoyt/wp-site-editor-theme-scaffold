@@ -211,6 +211,10 @@ theme at `wp-content/themes/wpsets`, so it is active under its text-domain slug.
 - `npm run seed` loads `bin/seed-content.php` (posts, threaded and paginated comments, a
   three-level page tree, and the `smoke-*` posts the smoke test reads) into whichever site
   `bin/wp.sh` reaches — your Local site when it is running.
+- `npm run test:smoke` (`bin/smoke.js`) visits the main templates and the `smoke-*` posts
+  at 1280px and 375px on http://localhost:8888 (or the URL passed after `--`), and fails
+  on an unexpected status, a missing stylesheet, PHP notices in the page, console errors,
+  horizontal overflow on a phone, or the content checks it lists. Seed the site first.
 - `npm run review:import` imports the Theme Unit Test XML into the review site.
 - `npm run review:check` builds, stages the files the zip would contain into
   `build/wpsets-check/` through `.distignore`, and runs Theme Check on that copy. Theme
