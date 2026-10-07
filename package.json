@@ -24,7 +24,8 @@
     "patterns:flush": "bin/wp.sh eval-file bin/flush-patterns.php",
     "export:templates": "bin/wp.sh eval-file bin/export-templates.php",
     "export:templates:write": "bin/wp.sh eval-file bin/export-templates.php write && npm run validate:blocks",
-    "export:templates:delete": "npm run validate:blocks && bin/wp.sh eval-file bin/export-templates.php delete"
+    "export:templates:delete": "npm run validate:blocks && bin/wp.sh eval-file bin/export-templates.php delete",
+    "seed": "bin/wp.sh eval-file bin/seed-content.php"
   },
   "overrides": {
     "@sentry/node": {
