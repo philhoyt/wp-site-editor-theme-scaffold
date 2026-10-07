@@ -105,10 +105,10 @@ properties reset; core marks the open overlay's background and padding `!importa
 
 ### Claude Code hooks
 
-`.claude/settings.json` runs five `PostToolUse` hooks after every Edit/Write, from
+`.claude/settings.json` runs six `PostToolUse` hooks after every Edit/Write, from
 `.claude/scripts/hooks/`: phpcs (using the project `phpcs.xml`), ESLint, Stylelint, a
-security-pattern warning for PHP, and a readme-prose warning (a no-op until a
-`readme.txt` exists). Each hook only acts on the file type it covers and feeds its
+security-pattern warning for PHP, a readme-prose warning (a no-op until a
+`readme.txt` exists), and `validate:blocks` on the edited pattern, template or part. Each hook only acts on the file type it covers and feeds its
 findings back as additional context; none of them block the edit. The hook scripts are
 excluded from phpcs (`phpcs.xml`), ESLint (`eslint.config.js`) and Prettier
 (`.prettierignore`) so they do not show up as lint targets themselves.

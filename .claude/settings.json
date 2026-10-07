@@ -46,6 +46,16 @@
             "command": "node \"$CLAUDE_PROJECT_DIR\"/.claude/scripts/hooks/post-edit-readme-warn.js"
           }
         ]
+      },
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"$CLAUDE_PROJECT_DIR\"/.claude/scripts/hooks/post-edit-validate-blocks.js",
+            "timeout": 120
+          }
+        ]
       }
     ]
   }

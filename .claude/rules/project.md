@@ -41,7 +41,7 @@ patterns; there are no PHP page templates.
 - Block markup in `patterns/`, `templates/` and `parts/` must match each block's
   `save()` output; run `npm run validate:blocks` after touching any of them.
 - `theme.json` `$schema` is pinned to a released version and moves with `Tested up to`.
-- `.claude/settings.json` runs phpcs / ESLint / Stylelint / security / readme hooks after
+- `.claude/settings.json` runs phpcs / ESLint / Stylelint / security / readme / validate-blocks hooks after
   every Edit/Write from `.claude/scripts/hooks/`; those scripts are excluded from lint.
 - Release: `.github/workflows/release.yml` runs on `v*` tags, stages through
   `.distignore`, and publishes `<slug>.zip`. The scaffold never tags; set `SLUG` in the
