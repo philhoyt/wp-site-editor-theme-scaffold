@@ -215,6 +215,10 @@ theme at `wp-content/themes/wpsets`, so it is active under its text-domain slug.
   at 1280px and 375px on http://localhost:8888 (or the URL passed after `--`), and fails
   on an unexpected status, a missing stylesheet, PHP notices in the page, console errors,
   horizontal overflow on a phone, or the content checks it lists. Seed the site first.
+- `npm run check:a11y` (`bin/check-a11y.js`) runs axe-core (WCAG 2.1 A/AA plus
+  best-practice) over the seeded content and the archive, search and 404 templates at both
+  widths, with the navigation drawer open on the phone pass. What axe cannot decide
+  (contrast over images) is listed for a manual check and does not fail the run.
 - `npm run review:import` imports the Theme Unit Test XML into the review site.
 - `npm run review:check` builds, stages the files the zip would contain into
   `build/wpsets-check/` through `.distignore`, and runs Theme Check on that copy. Theme
