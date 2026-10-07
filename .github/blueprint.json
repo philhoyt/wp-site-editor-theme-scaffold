@@ -18,7 +18,7 @@
       "step": "installTheme",
       "themeData": {
         "resource": "url",
-        "url": "https://github.com/OWNER/REPO/releases/latest/download/SLUG.zip"
+        "url": "https://github.com/OWNER/REPO/releases/latest/download/wpsets.zip"
       },
       "options": {
         "activate": true
