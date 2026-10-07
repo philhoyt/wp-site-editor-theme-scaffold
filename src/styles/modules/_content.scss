@@ -137,6 +137,13 @@ $content: ".wp-block-post-content, .wp-block-comment-content";
 		padding-inline-start: clamp(1rem, 5vw, 4.5rem);
 	}
 
+	// The comment body sits in a flex row beside the avatar. A flex item never
+	// shrinks below its longest word, so one long URL in a comment would widen
+	// the page; reset min-width so the text breaks instead.
+	.wp-block-comment-template .is-layout-flex > * {
+		min-width: 0;
+	}
+
 	// Core's reply-list reset also strips the numbers from an ordered list
 	// written inside a comment. Give them back.
 	.wp-block-comment-template .wp-block-comment-content ol {
