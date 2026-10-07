@@ -40,11 +40,14 @@ header.wp-block-template-part:has(> .is-position-sticky) {
 	}
 }
 
+// Passes the body background down to a sticky header, so content never shows
+// through it. The editor canvas's root container carries the class too.
+.wp-site-blocks {
+	background-color: inherit;
+}
+
 @include context.is(front) {
 	.wp-site-blocks {
-		// Passes the body background down to a sticky header, so content never
-		// shows through it.
-		background-color: inherit;
 		width: 100%;
 		min-block-size: 100svh;
 		display: grid;
