@@ -117,6 +117,10 @@ excluded from phpcs (`phpcs.xml`), ESLint (`eslint.config.js`) and Prettier
 
 - Tabs for indentation (PHP, JS, SCSS, HTML); spaces for JSON/YAML
 - Theme layout uses CSS Grid on `.wp-site-blocks` (header/main/footer)
+- There is deliberately no `front-page.html`. It would take over `/` under WordPress's
+  default "Your latest posts" Reading setting, where `home.html` should render the posts
+  list; a static front page falls through to `page.html`. Add one only for a designed
+  homepage, and make it render a query loop or the page content explicitly
 - Core block patterns are disabled; custom patterns go in `patterns/`
 - No custom image sizes are registered. Add `add_image_size()` in the derived theme only once a pattern or template consumes the size — unused sizes bloat every upload and get flagged in a directory review
 - `dist/css/style-rtl.css` is served automatically via `wp_style_add_data( …, 'rtl', 'replace' )`; nothing extra is needed for RTL locales
