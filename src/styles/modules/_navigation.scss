@@ -57,10 +57,15 @@
 	//
 	// Core marks the open overlay's background and padding `!important` (trap 3),
 	// so those two need the same weight to land. The padding also restores the
-	// root padding the overlay loses by rendering outside the normal flow.
+	// root padding the overlay loses by rendering outside the normal flow. The
+	// base colour is only a default: an overlay colour chosen on the block
+	// (`has-background`) is left alone.
 	.wp-block-navigation__responsive-container.is-menu-open {
-		background-color: var(--wp--preset--color--base) !important;
 		padding: var(--wp--preset--spacing--xl) var(--wp--style--root--padding-left, var(--wp--preset--spacing--m)) !important;
+
+		&:not(.has-background) {
+			background-color: var(--wp--preset--color--base) !important;
+		}
 	}
 
 	// A right-justified bar carries `items-justified-right` into the overlay
