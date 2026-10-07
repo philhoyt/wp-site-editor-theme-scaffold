@@ -1,15 +1,16 @@
 ---
 paths:
-  - "**/*.php"
-  - "**/*.js"
-  - "**/*.jsx"
-  - "**/*.scss"
-  - "**/*.css"
-  - "**/*.html"
-  - "**/theme.json"
-  - "**/composer.json"
-  - "**/package.json"
+ - "**/*.php"
+ - "**/*.js"
+ - "**/*.jsx"
+ - "**/*.scss"
+ - "**/*.css"
+ - "**/*.html"
+ - "**/theme.json"
+ - "**/composer.json"
+ - "**/package.json"
 ---
+
 # Project: WP-SETS
 
 A WordPress Full Site Editing (FSE) **block theme** scaffold — used as a base to start

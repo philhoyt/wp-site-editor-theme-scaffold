@@ -76,18 +76,18 @@ The `_context.scss` mixin controls whether styles apply on the front-end or in t
 
 ### Key Files
 
-| File                | Purpose                                                                             |
-| ------------------- | ----------------------------------------------------------------------------------- |
-| `style.css`         | Theme header — name, version, text domain, `Requires`/`Tested up to` metadata        |
-| `theme.json`        | All theme settings: color palette, typography, layout widths, spacing, border radii. Its `$schema` is pinned to a released version (`wp/7.1`) and moves together with `Tested up to` in `style.css`, so the editor and validators only offer settings the theme claims to support |
-| `inc/setup.php`     | Theme setup hooks, asset enqueueing using `*.asset.php` manifests                   |
-| `functions.php`     | Minimal entry point — includes `inc/setup.php`                                      |
-| `patterns/`         | PHP patterns holding the theme's block markup (the pattern paradigm)                 |
-| `webpack.config.js` | Build config extending `@wordpress/scripts` defaults                                |
-| `phpcs.xml`         | PHP CodeSniffer ruleset (WordPress standard + PHPCompatibilityWP)                    |
-| `phpstan.neon`      | PHPStan config (level 5, WordPress stubs)                                            |
-| `bin/wp.sh`         | WP-CLI wrapper for the Local site. `SITE` at the top is the folder name under `~/Local Sites` (`wp-sets` for the scaffold's own dev site; change it in a derived theme) and needs a one-time socket symlink, described in the script |
-| `.distignore`       | Paths excluded from the theme zip (source, tooling, dotfiles, docs, lockfiles)       |
+| File                            | Purpose                                                                                                                                                                                                                                                                                                                                                                                             |
+| ------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `style.css`                     | Theme header — name, version, text domain, `Requires`/`Tested up to` metadata                                                                                                                                                                                                                                                                                                                       |
+| `theme.json`                    | All theme settings: color palette, typography, layout widths, spacing, border radii. Its `$schema` is pinned to a released version (`wp/7.1`) and moves together with `Tested up to` in `style.css`, so the editor and validators only offer settings the theme claims to support                                                                                                                   |
+| `inc/setup.php`                 | Theme setup hooks, asset enqueueing using `*.asset.php` manifests                                                                                                                                                                                                                                                                                                                                   |
+| `functions.php`                 | Minimal entry point — includes `inc/setup.php`                                                                                                                                                                                                                                                                                                                                                      |
+| `patterns/`                     | PHP patterns holding the theme's block markup (the pattern paradigm)                                                                                                                                                                                                                                                                                                                                |
+| `webpack.config.js`             | Build config extending `@wordpress/scripts` defaults                                                                                                                                                                                                                                                                                                                                                |
+| `phpcs.xml`                     | PHP CodeSniffer ruleset (WordPress standard + PHPCompatibilityWP)                                                                                                                                                                                                                                                                                                                                   |
+| `phpstan.neon`                  | PHPStan config (level 5, WordPress stubs)                                                                                                                                                                                                                                                                                                                                                           |
+| `bin/wp.sh`                     | WP-CLI wrapper for the Local site. `SITE` at the top is the folder name under `~/Local Sites` (`wp-sets` for the scaffold's own dev site; change it in a derived theme) and needs a one-time socket symlink, described in the script                                                                                                                                                                |
+| `.distignore`                   | Paths excluded from the theme zip (source, tooling, dotfiles, docs, lockfiles)                                                                                                                                                                                                                                                                                                                      |
 | `.github/workflows/release.yml` | On a `v*` tag: builds, checks the tag against `style.css` `Version` and `package.json` (and `readme.txt` `Stable tag` once one exists), stages through `.distignore`, zips with a single `<slug>/` root, and publishes a GitHub release with the fixed asset name `<slug>.zip`. Set `SLUG` in its `env:` block. The scaffold itself never tags a release; the workflow activates in a derived theme |
 
 ### Navigation
@@ -147,13 +147,13 @@ This scaffold follows the **pattern-paradigm** used by Twenty Twenty-Five: templ
 
 **Pattern header conventions used here**
 
-| Header | Purpose |
-|--------|---------|
-| `Title:` | Display name in the inserter |
-| `Slug:` | `wpsets/{name}` — must match the namespace |
-| `Categories:` | Inserter grouping (`header`, `footer`, `query`, `text`) |
-| `Block Types:` | Marks the pattern as a starter for that block (e.g. `core/query`, `core/comments`) |
-| `Inserter: no` | Suppresses the pattern from the inserter UI |
+| Header            | Purpose                                                                                                                |
+| ----------------- | ---------------------------------------------------------------------------------------------------------------------- |
+| `Title:`          | Display name in the inserter                                                                                           |
+| `Slug:`           | `wpsets/{name}` — must match the namespace                                                                             |
+| `Categories:`     | Inserter grouping (`header`, `footer`, `query`, `text`)                                                                |
+| `Block Types:`    | Marks the pattern as a starter for that block (e.g. `core/query`, `core/comments`)                                     |
+| `Inserter: no`    | Suppresses the pattern from the inserter UI                                                                            |
 | `Viewport Width:` | Width the inserter preview renders at; `1280` on full-width patterns so the preview is not squeezed to a mobile layout |
 
 **Naming conventions**
@@ -203,10 +203,10 @@ do not matter — the validator compares them as sets — but missing or extra c
 Two wp-env sites, separate from the Local dev site (Docker required). Both mount the
 theme at `wp-content/themes/wpsets`, so it is active under its text-domain slug.
 
-| Site | Start | URL | Purpose |
-|------|-------|-----|---------|
-| `.wp-env.json` | `npm run wp-env:start` | http://localhost:8888 | `bin/wp.sh` fallback when Local is down; CI; smoke and a11y checks |
-| `.wp-env.review.json` | `npm run review:start` | http://localhost:8896 | Theme Unit Test content, WordPress Importer and Theme Check |
+| Site                  | Start                  | URL                   | Purpose                                                            |
+| --------------------- | ---------------------- | --------------------- | ------------------------------------------------------------------ |
+| `.wp-env.json`        | `npm run wp-env:start` | http://localhost:8888 | `bin/wp.sh` fallback when Local is down; CI; smoke and a11y checks |
+| `.wp-env.review.json` | `npm run review:start` | http://localhost:8896 | Theme Unit Test content, WordPress Importer and Theme Check        |
 
 - `npm run seed` loads `bin/seed-content.php` (posts, threaded and paginated comments, a
   three-level page tree, and the `smoke-*` posts the smoke test reads) into whichever site
