@@ -91,6 +91,8 @@ function wpsets_seed_image( $slug, $from, $to ) {
 		$path
 	);
 	wp_update_attachment_metadata( $id, wp_generate_attachment_metadata( $id, $path ) );
+	// Galleries and linked images need alt text, or the link has no name.
+	update_post_meta( $id, '_wp_attachment_image_alt', 'A gradient placeholder image' );
 
 	return $id;
 }
