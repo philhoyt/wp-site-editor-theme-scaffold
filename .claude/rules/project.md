@@ -55,4 +55,7 @@ patterns; there are no PHP page templates.
 - `npm run build` / `npm run start` — production build / dev watch
 - `wp i18n make-pot . languages/wpsets.pot --include="templates,parts,patterns,inc,theme.json"`
 - `npm run validate:blocks` — parse patterns/templates/parts with the core block registry
-- `bin/wp.sh <command>` — WP-CLI against the Local site named by `SITE` at the top of the script
+- `bin/wp.sh <command>` — WP-CLI against the Local site named by `SITE`, or wp-env when Local is down
+- `npm run wp-env:start` / `npm run seed` / `npm run test:smoke` / `npm run check:a11y` — wp-env test site, content, checks
+- `npm run review:start` / `review:import` / `review:check` — Theme Unit Test site and Theme Check on a staged copy
+- `npm run patterns:flush`, `npm run export:templates` — pattern cache, Site Editor copies

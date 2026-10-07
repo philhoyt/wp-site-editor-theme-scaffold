@@ -23,8 +23,17 @@ npm run format:check   # Check formatting without writing
 
 # Utilities
 npm run screenshot     # Capture screenshot.png of the local site (Puppeteer)
-npm run validate:blocks # Parse patterns/templates/parts with the core block registry; fails on any block that would enter recovery mode
+npm run validate:blocks # Parse patterns/templates/parts with the core block registry; fails on unknown, invalid or deprecated markup and broken references
+npm run patterns:flush  # Clear the theme pattern cache on the site behind bin/wp.sh
+npm run export:templates # Report Site Editor copies of templates/parts (:write, :delete to act)
 npm run packages-update # Update @wordpress/* packages
+
+# Test sites (wp-env, Docker) — see Test sites
+npm run wp-env:start   # http://localhost:8888; bin/wp.sh falls back to it when Local is down
+npm run seed           # Seed content into the site bin/wp.sh reaches
+npm run test:smoke     # Templates and seeded edge cases at desktop and phone widths
+npm run check:a11y     # axe-core WCAG 2.1 A/AA + best-practice
+npm run review:start   # Theme Unit Test site on :8896 (review:import, review:check)
 ```
 
 ## Architecture
@@ -76,19 +85,26 @@ The `_context.scss` mixin controls whether styles apply on the front-end or in t
 
 ### Key Files
 
-| File                            | Purpose                                                                                                                                                                                                                                                                                                                                                                                             |
-| ------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `style.css`                     | Theme header — name, version, text domain, `Requires`/`Tested up to` metadata                                                                                                                                                                                                                                                                                                                       |
-| `theme.json`                    | All theme settings: color palette, typography, layout widths, spacing, border radii. Its `$schema` is pinned to a released version (`wp/7.1`) and moves together with `Tested up to` in `style.css`, so the editor and validators only offer settings the theme claims to support                                                                                                                   |
-| `inc/setup.php`                 | Theme setup hooks, asset enqueueing using `*.asset.php` manifests                                                                                                                                                                                                                                                                                                                                   |
-| `functions.php`                 | Minimal entry point — includes `inc/setup.php`                                                                                                                                                                                                                                                                                                                                                      |
-| `patterns/`                     | PHP patterns holding the theme's block markup (the pattern paradigm)                                                                                                                                                                                                                                                                                                                                |
-| `webpack.config.js`             | Build config extending `@wordpress/scripts` defaults                                                                                                                                                                                                                                                                                                                                                |
-| `phpcs.xml`                     | PHP CodeSniffer ruleset (WordPress standard + PHPCompatibilityWP)                                                                                                                                                                                                                                                                                                                                   |
-| `phpstan.neon`                  | PHPStan config (level 5, WordPress stubs)                                                                                                                                                                                                                                                                                                                                                           |
-| `bin/wp.sh`                     | WP-CLI wrapper for the Local site. `SITE` at the top is the folder name under `~/Local Sites` (`wp-sets` for the scaffold's own dev site; change it in a derived theme) and needs a one-time socket symlink, described in the script                                                                                                                                                                |
-| `.distignore`                   | Paths excluded from the theme zip (source, tooling, dotfiles, docs, lockfiles)                                                                                                                                                                                                                                                                                                                      |
-| `.github/workflows/release.yml` | On a `v*` tag: builds, checks the tag against `style.css` `Version` and `package.json` (and `readme.txt` `Stable tag` once one exists), stages through `.distignore`, zips with a single `<slug>/` root, and publishes a GitHub release with the fixed asset name `<slug>.zip`. Set `SLUG` in its `env:` block. The scaffold itself never tags a release; the workflow activates in a derived theme |
+| File                                                        | Purpose                                                                                                                                                                                                                                                                                                                                                                                             |
+| ----------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `style.css`                                                 | Theme header — name, version, text domain, `Requires`/`Tested up to` metadata                                                                                                                                                                                                                                                                                                                       |
+| `theme.json`                                                | All theme settings: color palette, typography, layout widths, spacing, border radii. Its `$schema` is pinned to a released version (`wp/7.1`) and moves together with `Tested up to` in `style.css`, so the editor and validators only offer settings the theme claims to support                                                                                                                   |
+| `inc/setup.php`                                             | Theme setup hooks, asset enqueueing using `*.asset.php` manifests                                                                                                                                                                                                                                                                                                                                   |
+| `functions.php`                                             | Minimal entry point — includes `inc/setup.php`                                                                                                                                                                                                                                                                                                                                                      |
+| `patterns/`                                                 | PHP patterns holding the theme's block markup (the pattern paradigm)                                                                                                                                                                                                                                                                                                                                |
+| `webpack.config.js`                                         | Build config extending `@wordpress/scripts` defaults                                                                                                                                                                                                                                                                                                                                                |
+| `phpcs.xml`                                                 | PHP CodeSniffer ruleset (WordPress standard + PHPCompatibilityWP)                                                                                                                                                                                                                                                                                                                                   |
+| `phpstan.neon`                                              | PHPStan config (level 5, WordPress stubs)                                                                                                                                                                                                                                                                                                                                                           |
+| `bin/wp.sh`                                                 | WP-CLI wrapper. Uses the Local site when its socket is up, else the wp-env site. `SITE` at the top is the folder name under `~/Local Sites` (`wp-sets` for the scaffold's own dev site; change it in a derived theme) and needs a one-time socket symlink, described in the script                                                                                                                  |
+| `bin/validate-blocks.js`                                    | Block markup validator (`npm run validate:blocks`); see [Block markup must validate](#block-markup-must-validate)                                                                                                                                                                                                                                                                                   |
+| `bin/seed-content.php`, `bin/smoke.js`, `bin/check-a11y.js` | Test content, smoke test and axe check; see [Test sites](#test-sites). The `smoke-*` slugs are shared between the seed and the smoke test                                                                                                                                                                                                                                                           |
+| `bin/export-templates.php`, `bin/flush-patterns.php`        | Site Editor export and pattern-cache flush, run through `bin/wp.sh eval-file`                                                                                                                                                                                                                                                                                                                       |
+| `.wp-env.json`, `.wp-env.review.json`                       | The two wp-env sites; both mount the theme at `wp-content/themes/wpsets`                                                                                                                                                                                                                                                                                                                            |
+| `.github/workflows/ci.yml`                                  | Lint job, then a site job on PHP 7.4 and 8.4: wp-env, seed, `validate:blocks` with patterns, smoke test, axe                                                                                                                                                                                                                                                                                        |
+| `.github/blueprint.json`                                    | Playground blueprint template for the latest release zip; set `OWNER/REPO` and `SLUG`                                                                                                                                                                                                                                                                                                               |
+| `.nvmrc`                                                    | Node version for CI (`24`); `engines.node` in `package.json` is the floor (`>=22.13.0`)                                                                                                                                                                                                                                                                                                             |
+| `.distignore`                                               | Paths excluded from the theme zip (source, tooling, dotfiles, docs, lockfiles)                                                                                                                                                                                                                                                                                                                      |
+| `.github/workflows/release.yml`                             | On a `v*` tag: builds, checks the tag against `style.css` `Version` and `package.json` (and `readme.txt` `Stable tag` once one exists), stages through `.distignore`, zips with a single `<slug>/` root, and publishes a GitHub release with the fixed asset name `<slug>.zip`. Set `SLUG` in its `env:` block. The scaffold itself never tags a release; the workflow activates in a derived theme |
 
 ### Navigation
 
@@ -192,7 +208,7 @@ warning and only templates and parts are checked. `npm run wp-env:start` gives
 `bin/wp.sh` a site to fall back to.
 
 Mismatches found so far, all class-list slips: `has-background-dim-55` (core rounds
-`dimRatio` to the nearest 10, so 55 → `-60`); a separator without
+`dimRatio` to the nearest 10, so 55 → `-60`, and 50 emits no number class at all); a separator without
 `has-alpha-channel-opacity` (present whenever no opacity is set); the cover's `<img>`
 must come before the overlay `<span>` in the current save format (span-first only
 matches a deprecation and gets silently rewritten). Class order and inline-style order
@@ -259,3 +275,30 @@ Things that are not derivable from the code:
 - **Spacing slugs must not contain digits.** See [Conventions](#conventions).
 - **Block markup must match `save()` output.** See
   [Block markup must validate](#block-markup-must-validate); run `npm run validate:blocks`.
+- **A pattern placed in post content is unwrapped on save.** A page whose content is
+  `<!-- wp:pattern {"slug":"wpsets/…"} /-->` keeps the file as its source only until
+  someone opens and saves it in the editor; then it becomes a detached copy of the markup.
+- **The root `blockGap` puts a strip between header, main and footer.** The 1rem
+  `styles.spacing.blockGap` becomes `margin-block-start` on every child of
+  `.wp-site-blocks`, so the page background shows between the bands. The scaffold leaves
+  it (where the bands sit is a per-theme call); Fairport, Loam and Tendo each removed it
+  with `.wp-site-blocks > * { margin-block: 0; }` or `margin-block-start: 0 !important`
+  on the header and footer parts, plus `"blockGap":"0"` on each template's `main` Group.
+- **Theme Check scans the installed directory, not the zip.** Run it on a
+  `.distignore`-staged copy (`npm run review:check`). It also flags any function named
+  like `add_*_page` (plugin territory), so do not name theme functions that way.
+- **`dimRatio: 50` emits no `has-background-dim-50` class**, only `has-background-dim`.
+  Other ratios round to the nearest 10 (see the validator section).
+- **Do not wrap an image with empty alt text in a link.** The link then has no
+  accessible name (axe `link-name`). Give the image alt text or put text in the link.
+- **A `styles/typography/` preset replaces the whole `fontFamilies` list.** It must
+  redeclare every family that theme.json or a pattern references, or those fall back.
+- **Renaming a block-style slug strips its styling from existing content.** Saved posts
+  keep the old `is-style-*` class; keep the old slug (Tendo kept `tendo-striped`).
+- **Block style variations are JSON partials since 6.6.** Put them under `styles/`
+  (Twenty Twenty-Five uses `styles/blocks/`) with a `blockTypes` key, not
+  `register_block_style()` in PHP.
+- **phpcs versions move with `style.css`.** `testVersion` in `phpcs.xml` follows
+  `Requires PHP`, `minimum_supported_wp_version` follows `Requires at least`, and
+  `config.platform.php` in `composer.json` follows `Requires PHP`, the same way
+  `$schema` follows `Tested up to`.
