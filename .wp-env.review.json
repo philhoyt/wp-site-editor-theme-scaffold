@@ -1,0 +1,21 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/wp-env.json",
+  "core": null,
+  "port": 8896,
+  "testsPort": 8897,
+  "mappings": {
+    "wp-content/themes/wpsets": ".",
+    "wp-content/themes/wpsets-check": "./build/wpsets-check"
+  },
+  "plugins": [
+    "https://downloads.wordpress.org/plugin/wordpress-importer.latest-stable.zip",
+    "https://downloads.wordpress.org/plugin/theme-check.latest-stable.zip"
+  ],
+  "config": {
+    "WP_DEBUG": true,
+    "WP_DEBUG_DISPLAY": true
+  },
+  "lifecycleScripts": {
+    "afterStart": "wp-env run cli --config=.wp-env.review.json wp theme activate wpsets"
+  }
+}

@@ -55,3 +55,6 @@ Thumbs.db
 # wp-env — per-machine overrides
 .wp-env.override.json
 .wp-env.*.override.json
+
+# Release and Theme Check staging
+/build

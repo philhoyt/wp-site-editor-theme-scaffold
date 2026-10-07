@@ -198,6 +198,27 @@ must come before the overlay `<span>` in the current save format (span-first onl
 matches a deprecation and gets silently rewritten). Class order and inline-style order
 do not matter — the validator compares them as sets — but missing or extra classes do.
 
+### Test sites
+
+Two wp-env sites, separate from the Local dev site (Docker required). Both mount the
+theme at `wp-content/themes/wpsets`, so it is active under its text-domain slug.
+
+| Site | Start | URL | Purpose |
+|------|-------|-----|---------|
+| `.wp-env.json` | `npm run wp-env:start` | http://localhost:8888 | `bin/wp.sh` fallback when Local is down; CI; smoke and a11y checks |
+| `.wp-env.review.json` | `npm run review:start` | http://localhost:8896 | Theme Unit Test content, WordPress Importer and Theme Check |
+
+- `npm run seed` loads `bin/seed-content.php` (posts, threaded and paginated comments, a
+  three-level page tree, and the `smoke-*` posts the smoke test reads) into whichever site
+  `bin/wp.sh` reaches — your Local site when it is running.
+- `npm run review:import` imports the Theme Unit Test XML into the review site.
+- `npm run review:check` builds, stages the files the zip would contain into
+  `build/wpsets-check/` through `.distignore`, and runs Theme Check on that copy. Theme
+  Check scans the installed directory, so running it on the working copy reports
+  `node_modules/`, `src/` and the other dev files the zip leaves out. Expect the
+  `readme.txt`, copyright-notice and directory-name findings until the derived theme adds
+  a `readme.txt` and is renamed.
+
 ### Translations
 
 User-facing strings live in `patterns/*.php` wrapped in `esc_html__()`, `esc_html_e()`, `esc_html_x()`, or `esc_attr_x()` with the `wpsets` text domain. To regenerate `languages/wpsets.pot`:
