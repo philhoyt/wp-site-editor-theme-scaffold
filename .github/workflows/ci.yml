@@ -1,0 +1,118 @@
+# Lint and build on every pull request, then boot the theme on wp-env (PHP 7.4,
+# the declared floor, and 8.4), seed it, and run validate:blocks with patterns,
+# the smoke test and the axe accessibility check.
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lint:
+    name: Lint and build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Set up Node
+        uses: actions/setup-node@v7
+        with:
+          node-version-file: ".nvmrc"
+          cache: "npm"
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.4"
+          tools: composer
+
+      - name: Install dependencies
+        run: |
+          npm ci
+          composer install --no-interaction --prefer-dist
+
+      - name: PHP_CodeSniffer
+        run: composer run lint
+
+      - name: PHPStan
+        run: composer run analyse
+
+      - name: ESLint
+        run: npm run lint:js
+
+      - name: Stylelint
+        run: npm run lint:scss
+
+      - name: Prettier
+        run: npm run format:check
+
+      - name: Build
+        run: npm run build
+
+      # No site here, so patterns are skipped; the site job covers them.
+      - name: Block markup (templates and parts)
+        run: npm run validate:blocks
+
+  site:
+    name: Site checks (PHP ${{ matrix.php }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        php: ["7.4", "8.4"]
+    env:
+      WP_ENV_PHP_VERSION: ${{ matrix.php }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Set up Node
+        uses: actions/setup-node@v7
+        with:
+          node-version-file: ".nvmrc"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Start wp-env
+        run: npx wp-env start
+
+      # afterStart activates the theme too, but wp-env does not always
+      # activate it on a fresh site, so make sure before anything reads it.
+      - name: Activate the theme and seed content
+        run: |
+          npx wp-env run cli wp theme activate wpsets
+          npm run seed
+
+      - name: Block markup (patterns, templates and parts)
+        run: npm run validate:blocks
+
+      - name: Smoke test
+        run: npm run test:smoke
+
+      - name: Accessibility
+        run: npm run check:a11y
+
+      - name: Show what rendered
+        if: failure()
+        run: |
+          npx wp-env run cli wp core version
+          npx wp-env run cli wp theme list --status=active --fields=name,version
+          echo "--- headings on / ---"
+          curl -s http://localhost:8888/ | grep -o '<h[1-3][^>]*>[^<]*' | head -8
+          npx wp-env logs --no-watch || true
