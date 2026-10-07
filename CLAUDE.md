@@ -209,9 +209,13 @@ Things that are not derivable from the code:
   `npm run patterns:flush` (`bin/flush-patterns.php`) to clear it, or define
   `WP_DEVELOPMENT_MODE` as `'theme'` on the dev site to turn the cache off.
 - **Site Editor customisations override theme files.** If the dev site does not match
-  `templates/` or `parts/`, check
-  `bin/wp.sh post list --post_type=wp_template,wp_template_part`. `wp_template` posts
-  cannot be trashed — export a backup, then `bin/wp.sh post delete <id> --force`.
+  `templates/` or `parts/`, `npm run export:templates` lists the database copies against
+  their files. To keep an editor change, `npm run export:templates:write` writes the files
+  (then validates them); `npm run export:templates:delete` removes the copies whose file
+  now matches. An exported part usually needs hand repair before it is committed: the
+  editor inlines the pattern it came from (`"metadata":{"patternName":…}`, losing the
+  `wp:pattern` reference and its translations) and saves the navigation as
+  `"ref":<post id>`, which exists only on that site. The script warns about both.
 - **`context.is()` takes one argument.** Styles that apply to both the front-end and
   the editor go outside the mixin entirely.
 - **Spacing slugs must not contain digits.** See [Conventions](#conventions).
