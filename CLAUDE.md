@@ -153,7 +153,7 @@ excluded from phpcs (`phpcs.xml`), ESLint (`eslint.config.js`) and Prettier
 
 ### Patterns
 
-This scaffold follows the **pattern-paradigm** used by Twenty Twenty-Five: templates and template-parts under `templates/` and `parts/` are thin shells; the meaningful block markup lives in PHP patterns under `patterns/` and is composed via `<!-- wp:pattern {"slug":"wpsets/…"} -->`.
+This theme follows the **pattern-paradigm** used by Twenty Twenty-Five: templates and template-parts under `templates/` and `parts/` are thin shells; the meaningful block markup lives in PHP patterns under `patterns/` and is composed via `<!-- wp:pattern {"slug":"wpsets/…"} -->`.
 
 **Why patterns instead of inline block markup in templates?**
 
