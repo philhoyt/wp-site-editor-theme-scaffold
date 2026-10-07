@@ -1,0 +1,175 @@
+//
+// Module: content.
+//
+// Keeps post and comment content inside the column on a phone, and gives
+// classic-editor markup the layout a block theme gets from core for blocks.
+// Posts written in the classic editor, comments, and plugin output carry pixel
+// widths (an inline width on captions, width attributes on iframes) and none
+// of the block classes theme.json styles reach. Structural rules only: no
+// colours, borders or type, so a derived theme layers its look on top.
+//
+// The Theme Unit Test content exercises every rule here.
+//
+
+@use "../tools/context";
+
+$content: ".wp-block-post-content, .wp-block-comment-content";
+
+@include context.is(front) {
+	// ------------------------------------------------------------------- media
+
+	// Core only constrains images that have a `wp-image-*` class.
+	:where(#{$content}) :where(img, video, iframe, embed, object) {
+		max-width: 100%;
+	}
+
+	:where(#{$content}) :where(img) {
+		height: auto;
+	}
+
+	// A classic caption carries its image width inline. Capped with min() so a
+	// 1200px caption still respects core's constrained-layout content width,
+	// which a bare 100% would override at the same specificity.
+	/* stylelint-disable-next-line selector-class-pattern -- classic editor class. */
+	.wp-caption {
+		max-width: min(100%, var(--wp--style--global--content-size, 100%));
+	}
+
+	// A classic video embed is a bare iframe with pixel width and height. Once
+	// the width is capped the height has to follow, or the player letterboxes.
+	:where(#{$content}) > p > :where(iframe[src*="youtube.com"], iframe[src*="youtube-nocookie.com"], iframe[src*="vimeo.com"]) {
+		height: auto;
+		aspect-ratio: 16 / 9;
+	}
+
+	// --------------------------------------------------------------- alignment
+
+	// Core floats aligned blocks and captions, but an aligned image typed into
+	// a classic paragraph is neither. The RTL build flips the floats.
+	:where(#{$content}) :where(p, a) > img.alignleft {
+		float: left;
+		margin: 0.3em var(--wp--preset--spacing--m) var(--wp--preset--spacing--s) 0;
+	}
+
+	:where(#{$content}) :where(p, a) > img.alignright {
+		float: right;
+		margin: 0.3em 0 var(--wp--preset--spacing--s) var(--wp--preset--spacing--m);
+	}
+
+	:where(#{$content}) :where(p, a) > img.aligncenter {
+		display: block;
+		margin-inline: auto;
+	}
+
+	// ------------------------------------------------------- [gallery] shortcode
+
+	// The shortcode prints a gallery-columns-N class and no layout of its own
+	// in a block theme. Lay it out as a grid, like the Gallery block.
+	/* stylelint-disable selector-class-pattern -- classic editor classes. */
+	.gallery {
+		display: grid;
+		grid-template-columns: repeat(var(--wpsets--gallery-columns, 3), minmax(0, 1fr));
+		gap: var(--wp--preset--spacing--s);
+		align-items: start;
+	}
+
+	@for $i from 1 through 9 {
+		.gallery-columns-#{$i} {
+			--wpsets--gallery-columns: #{$i};
+		}
+	}
+
+	.gallery-item {
+		margin: 0;
+
+		img {
+			display: block;
+			width: 100%;
+			height: auto;
+		}
+	}
+	/* stylelint-enable selector-class-pattern */
+
+	// ------------------------------------------------------- post navigation
+
+	// The previous and next links share one flex row. Flex items never shrink
+	// below their longest word unless min-width is reset; cap each at half the
+	// row so one long title cannot squeeze the other to a few letters.
+	.is-layout-flex > .wp-block-post-navigation-link {
+		min-width: 0;
+		overflow-wrap: anywhere;
+
+		&:not(:only-child) {
+			max-width: 50%;
+		}
+
+		&.post-navigation-link-next {
+			margin-inline-start: auto;
+			text-align: end;
+		}
+	}
+
+	// Page links under a multi-page post are bare inline text; give each number
+	// a box large enough to tap.
+	.post-nav-links {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: var(--wp--preset--spacing--xs);
+		margin-block-start: var(--wp--preset--spacing--l);
+	}
+
+	.post-page-numbers {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		min-width: 2.75rem;
+		min-height: 2.75rem;
+	}
+
+	// ------------------------------------------------------------------ comments
+
+	// Indent each level of replies by an amount that follows the screen width;
+	// a fixed indent leaves a fifth-level reply a few words wide on a phone.
+	// Core's own padding on this selector outranks theme.json. `li > ol` is a
+	// list of replies; a list typed into a comment sits inside its content.
+	.wp-block-comment-template li > ol {
+		padding-inline-start: clamp(1rem, 5vw, 4.5rem);
+	}
+
+	// Core's reply-list reset also strips the numbers from an ordered list
+	// written inside a comment. Give them back.
+	.wp-block-comment-template .wp-block-comment-content ol {
+		list-style: revert;
+		padding-inline-start: revert;
+	}
+
+	// A pingback or trackback has no avatar; drop the empty slot it leaves.
+	.wp-block-avatar:empty {
+		display: none;
+	}
+
+	// Keep the password field and its button apart when they wrap.
+	.post-password-form p:has(input[type="password"]) {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: flex-end;
+		gap: var(--wp--preset--spacing--xs);
+	}
+
+	// ------------------------------------------------------------------- phones
+
+	@media (width < 600px) {
+		// Floats next to text that can now break mid-word would leave a strip one
+		// letter wide beside them.
+		:where(#{$content}) :is(.alignleft, .alignright) {
+			max-width: 50%;
+		}
+
+		// More than three thumbnails across a phone are too small to make out.
+		/* stylelint-disable-next-line selector-class-pattern -- classic editor classes. */
+		.gallery:not(.gallery-columns-1, .gallery-columns-2) {
+			--wpsets--gallery-columns: 3;
+		}
+	}
+}
