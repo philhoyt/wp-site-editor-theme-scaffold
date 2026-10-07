@@ -1,0 +1,28 @@
+{
+  "$schema": "https://playground.wordpress.net/blueprint-schema.json",
+  "landingPage": "/",
+  "login": true,
+  "preferredVersions": {
+    "php": "8.3",
+    "wp": "latest"
+  },
+  "steps": [
+    {
+      "step": "defineWpConfigConsts",
+      "consts": {
+        "WP_DEBUG": true,
+        "WP_DEBUG_DISPLAY": true
+      }
+    },
+    {
+      "step": "installTheme",
+      "themeData": {
+        "resource": "url",
+        "url": "https://github.com/OWNER/REPO/releases/latest/download/SLUG.zip"
+      },
+      "options": {
+        "activate": true
+      }
+    }
+  ]
+}

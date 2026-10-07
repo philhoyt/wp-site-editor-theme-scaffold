@@ -92,6 +92,14 @@ To automatically fix some PHP linting issues:
 
 npm run lint:php:fix
 
+## Playground demo
+
+`.github/blueprint.json` installs the theme's latest release zip in [WordPress Playground](https://playground.wordpress.net/). It only works once the derived theme has tagged a release (see `.github/workflows/release.yml`). Replace `OWNER/REPO` and `SLUG` in its `installTheme` URL, then add a badge to the theme's README:
+
+```markdown
+[![Try it in WordPress Playground](https://img.shields.io/badge/Playground-Try%20it-3858e9?logo=wordpress)](https://playground.wordpress.net/?blueprint-url=https://raw.githubusercontent.com/OWNER/REPO/main/.github/blueprint.json)
+```
+
 ## License
 
 This project is licensed under the GNU General Public License v2 or later.
