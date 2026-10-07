@@ -60,8 +60,10 @@ add_action( 'after_setup_theme', __NAMESPACE__ . '\\setup' );
 function enqueue_scripts_and_styles() {
 	// Get style asset info.
 	$style_asset_path = get_template_directory() . '/dist/css/style.asset.php';
-	$style_asset      = array(
-		'version' => wp_get_theme()->get( 'Version' ),
+	// The files load from the parent theme, so fall back to its version, not a
+	// child theme's.
+	$style_asset = array(
+		'version' => wp_get_theme( get_template() )->get( 'Version' ),
 	);
 
 	if ( file_exists( $style_asset_path ) ) {
