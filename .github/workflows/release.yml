@@ -73,6 +73,18 @@ jobs:
           fi
           ! unzip -l "$SLUG.zip" | grep -E "node_modules|/src/|/tests/|\.claude|/bin/"
 
+      # The Theme Directory requires stylesheets to ship as readable source. A
+      # minified file has no indented lines, however it is wrapped.
+      - name: Check the stylesheets are not minified
+        run: |
+          for f in build/$SLUG/dist/css/*.css; do
+            n=$(grep -c '^[[:space:]]' "$f" || true)
+            echo "$f: $n indented lines"
+            if [ "$n" -lt 20 ]; then
+              echo "::error::$f looks minified"; exit 1
+            fi
+          done
+
       # The changelog body comes from readme.txt when there is one; otherwise
       # GitHub generates release notes from the commits since the last tag.
       - name: Extract changelog

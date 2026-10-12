@@ -79,7 +79,15 @@ const distOutput = (output) => ({
 });
 
 /**
- * Rewrite the SCSS rule so extracted CSS resolves assets relative to dist/css/.
+ * Rewrite the SCSS rule so extracted CSS resolves assets relative to dist/css/
+ * and is emitted unminified.
+ *
+ * The WordPress Theme Directory requires stylesheets to ship as readable
+ * source. Two steps in wp-scripts' production pipeline compress CSS: cssnano,
+ * which postcss.config.js at the theme root replaces, and sass-loader, which
+ * defaults to Sass's compressed output style in production mode. The expanded
+ * style is set on both of sass-loader's option names so the legacy and modern
+ * Sass APIs behave the same.
  *
  * @param {Object} module Module config from a wp-scripts config object.
  * @return {Object} Module config with the patched SCSS rule.
@@ -87,8 +95,9 @@ const distOutput = (output) => ({
 const withScssPublicPath = (module) => ({
 	...module,
 	rules: module.rules.map((rule) => {
-		// Modify the rule that handles SCSS files.
-		if (!rule.test || !rule.test.toString().includes("scss")) {
+		// Modify the rule that handles SCSS files. wp-scripts writes its test as
+		// /\.(sc|sa)ss$/, so match by running it, not by searching its source.
+		if (!(rule.test instanceof RegExp) || !rule.test.test("file.scss")) {
 			return rule;
 		}
 
@@ -102,6 +111,19 @@ const withScssPublicPath = (module) => ({
 						options: {
 							publicPath: "../../",
 							esModule: false,
+						},
+					};
+				}
+				if (loader.loader && loader.loader.includes("sass-loader")) {
+					return {
+						...loader,
+						options: {
+							...loader.options,
+							sassOptions: {
+								...(loader.options && loader.options.sassOptions),
+								style: "expanded",
+								outputStyle: "expanded",
+							},
 						},
 					};
 				}
