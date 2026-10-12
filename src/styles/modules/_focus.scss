@@ -1,0 +1,35 @@
+//
+// Module: focus.
+//
+// The focus ring colour is --wp--custom--outline--color (theme.json), tertiary
+// by default. A single ring colour cannot hold 3:1 (WCAG 1.4.11) on every
+// surface a theme paints: here tertiary holds on base, secondary and the
+// contrast-light and contrast-medium greys, but fails on the contrast, primary
+// and contrast-dark colours and vanishes on itself. Core adds a
+// has-<slug>-background-color class wherever a palette colour is applied (a
+// Group, Cover, Columns, the navigation overlay), so each background sets the
+// ring that holds on it. A derived theme with section styles adds its own
+// .is-style-section-* selectors here and keeps the pairs in its contrast table.
+// The colour cannot be currentcolor: a focused button on a dark surface
+// changes its own text colour, and the ring sits outside the button, on the
+// surface.
+//
+
+:where(.wp-site-blocks *:focus) {
+	outline-width: var(--wp--custom--outline--width);
+	outline-style: var(--wp--custom--outline--style);
+	outline-color: var(--wp--custom--outline--color);
+}
+
+$ring-overrides: (
+	"contrast": "base",
+	"primary": "base",
+	"tertiary": "base",
+	"contrast-dark": "base",
+);
+
+@each $background, $ring in $ring-overrides {
+	.has-#{$background}-background-color {
+		--wp--custom--outline--color: var(--wp--preset--color--#{$ring});
+	}
+}

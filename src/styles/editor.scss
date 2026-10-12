@@ -12,6 +12,7 @@
 
 // Import modules. Front-only rules inside them are skipped by the context.
 @use 'modules/site';
+@use 'modules/focus';
 @use 'modules/forms';
 @use 'modules/links';
 @use 'modules/utilities';

@@ -24,6 +24,7 @@ composer.json
 composer.lock
 eslint.config.js
 webpack.config.js
+postcss.config.js
 phpcs.xml
 phpstan.neon
 .wp-env.json

@@ -49,6 +49,8 @@ This is a **WordPress Full Site Editing (FSE) block theme** scaffold. There are 
 
 Webpack (`webpack.config.js`) extends the default `@wordpress/scripts` config, separating CSS into a `css/` subdirectory and generating `*.asset.php` manifest files used by `inc/setup.php` for versioned asset enqueueing. `src/scripts/` is reserved as the entry point for theme JS — add an entry to `webpack.config.js` when the first script lands.
 
+The CSS is built **unminified** on purpose. The Theme Directory requires stylesheets to ship as readable source, and a derived theme's review was held on minified `dist/css/*.css`. wp-scripts compresses CSS in two places in production: cssnano, which the root `postcss.config.js` replaces with the plain wp-scripts preset, and sass-loader's compressed output style, which `webpack.config.js` sets back to expanded. The release workflow fails the zip if any stylesheet has fewer than 20 indented lines. Do not add cssnano, a CSS minimizer plugin or `.cssnanorc` back.
+
 Blocks live under `src/blocks/<name>/` and are discovered automatically: `wp-scripts` globs `src/` for `block.json` and builds an entry point per script field, so no manual entry is needed. `webpack.config.js` **merges** its two CSS entries into that discovered set rather than replacing it — replacing `entry` silently disables block discovery.
 
 `start` and `build` pass `--experimental-modules`, which is required for the `block.json` `viewScriptModule` field (i.e. any Interactivity API block). That flag makes `@wordpress/scripts` export an **array** of two configs — `[scripts, modules]` — instead of one object, which is why `webpack.config.js` destructures both and customises them separately. The `splitChunks` override is deliberately applied only to the scripts config; the Interactivity router arrives via a dynamic `import()` and needs chunking left alone.
@@ -252,6 +254,39 @@ wp i18n make-pot . languages/wpsets.pot --include="templates,parts,patterns,inc,
 ```
 
 The `--include` paths cover both PHP source and any patterns/templates that might pick up additional strings as the theme grows; `theme.json` carries the custom template titles.
+
+## Theme Directory review checklist
+
+What the WordPress.org review of derived themes has asked for beyond Theme Check. Each
+item is either built into the scaffold or something a derived theme has to keep doing.
+
+- **Readable stylesheets.** Built in (see Build Pipeline). Never reintroduce a minifier.
+- **Focus ring contrast on every band.** The ring colour is `--wp--custom--outline--color`,
+  set per background in `src/styles/modules/_focus.scss`. When a derived theme adds a
+  section style, add its `.is-style-section-*` selector there with a ring that holds 3:1
+  on the band in every colour preset, and add the pair to the theme's contrast table. axe
+  does not check focus-indicator contrast; tab through each band by hand.
+- **No PHP-rendered live values in a template part.** PHP in a pattern runs once, when the
+  pattern is inserted. The Site Editor expands a `wp:pattern` block into its blocks on
+  load, so the first save of a part stores the output as static text: a year from
+  `gmdate()` or a site name from `get_bloginfo()` never changes again. Values that must
+  stay current come from a dynamic block (`core/site-title`, `core/site-logo`) or a
+  block bindings source. Print "©" beside a Site Title block, without a year.
+- **One H1 per page.** A content pattern that carries an H1 (a hero masthead) is for a
+  template without a Post Title block, and its `Description:` must say so. Every other
+  pattern starts at H2.
+- **Plugin-dependent templates are hidden while the plugin is inactive.** Filter
+  `get_block_templates`, `get_block_template` and `get_block_file_template` to drop the
+  theme-file entries (`source === 'theme'`) for those slugs; `page-<slug>.html` files are
+  the risky ones because core matches them by page slug. Say so in `readme.txt`.
+- **Regenerate the pot with every release.** Its `Project-Id-Version` carries the theme
+  version; `/wp-release` does not do it. Use the `make-pot` command under Translations.
+- **No `load_theme_textdomain()`.** The directory serves language packs; the call is only
+  needed when the theme bundles `.mo` files.
+- **LF line endings in every bundled text file**, font licences included:
+  `git ls-files -z | xargs -0 grep -lI $'\r'` must print nothing.
+- **Theme Check on a staged copy** (`npm run review:check`), and the Theme Unit Test
+  content on the review site, before every submission.
 
 ## Gotchas
 
