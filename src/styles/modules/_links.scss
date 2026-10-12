@@ -13,7 +13,7 @@ a {
 	text-underline-offset: .1em;
 
 	&:focus {
-		outline: var(--wp--custom--outline--width) var(--wp--custom--outline--style) var(--wp--preset--color--tertiary);
+		outline: var(--wp--custom--outline--width) var(--wp--custom--outline--style) var(--wp--custom--outline--color);
 		outline-offset: var(--wp--custom--outline--offset);
 	}
 

@@ -7,6 +7,7 @@
 
 // Import modules.
 @use "modules/site";
+@use "modules/focus";
 @use "modules/forms";
 @use "modules/links";
 @use "modules/navigation";
@@ -15,13 +16,6 @@
 
 html {
 	scrollbar-gutter: stable;
-}
-
-/* Focus styles */
-:where(.wp-site-blocks *:focus) {
-	outline-width: var(--wp--custom--outline--width);
-	outline-style: var(--wp--custom--outline--style);
-	outline-color: var(--wp--preset--color--tertiary);
 }
 
 /* Increase the bottom margin on submenus, so that the outline is visible. */
