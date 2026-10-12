@@ -22,12 +22,6 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @return void
  */
 function setup() {
-	/**
-	 * Make theme available for translation.
-	 * Translations can be filed in the /languages/ directory.
-	 */
-	load_theme_textdomain( 'wpsets', get_template_directory() . '/languages' );
-
 	// Add default posts and comments RSS feed links to head.
 	add_theme_support( 'automatic-feed-links' );
 
